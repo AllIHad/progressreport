@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-vh-100 w-75 m-auto">
-    <h4 class="my-4 border-bottom p-2" >Skripsi</h4>
+    <h4 class="my-4 border-bottom p-2" >Proposal</h4>
     <div class="row">
         <div class="col-xl-12">
             <div class="data_table">

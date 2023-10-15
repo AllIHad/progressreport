@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="min-vh-100 w-75 mx-auto my-5">
-<h4 class="my-4 border-bottom p-2" >Skripsi</h4>
+<h4 class="my-4 border-bottom p-2" >Proposal</h4>
     <div class="row my-5">
         <div class="col-lg-6">
             <form action="/proposal" method="POST">

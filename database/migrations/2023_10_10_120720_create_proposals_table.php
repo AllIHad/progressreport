@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSkripsisTable extends Migration
+class CreateProposalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateSkripsisTable extends Migration
      */
     public function up()
     {
-        Schema::create('skripsis', function (Blueprint $table) {
+        Schema::create('proposals', function (Blueprint $table) {
             $table->id();
             $table->judul();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('dosen_id');
-            $table->unsignedBigInteger('bab1_id');
-            $table->unsignedBigInteger('bab2_id');
-            $table->unsignedBigInteger('bab3_id');
+            $table->json('bab1');
+            $table->json('bab2');
+            $table->json('bab3');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateSkripsisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('skripsis');
+        Schema::dropIfExists('proposals');
     }
 }
