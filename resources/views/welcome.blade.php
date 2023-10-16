@@ -15,7 +15,41 @@
 
 <body class="antialiased">
     <section>
-        <h1>Login Form</h1>
+        <div class=" min-vh-100 container overflow-hidden my-5 text-center">
+            <div class="row gx-5">
+                <div class="col-lg mt-5">
+                    <div class=" gambar p-8 mt-5">
+                        <img src="/img/Logo.png" alt="" width="280">
+                        <h2 class=" mt-5 fw-bold text-center">PRPS </h2>
+                    </div>
+                </div>
+                <div class="col mt-5">
+                    <div class="kotak-masuk p-3 mt-5">
+                        <main class="form-signin w-100 m-auto">
+
+                            <form class="form-login" action="/" method="POST" class="text-center mt-5">
+                                <input type="hidden" name="_token" value="e2WyHHLldB0cJA3bgrTuRVJJsADD4IGLEn5Ku04T">
+                                <h1 class=" h3 mb-4 fw-bold">Login ke PRPS</h1>
+
+                                <div class="form-floating mt-5">
+                                    <input type="text" class="form-control " name="username" id="username" value="" placeholder="username" autofocus required>
+                                    <label class="label-nim" for="username">Masukkan NIP/NIM Anda</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                                    <label for="password">Masukkan Password Anda</label>
+                                </div>
+
+                                <button class="mt-4 w-100 btn btn-lg btn-success rounded-pill border" type="submit">Masuk</button>
+                            </form>
+                        </main>
+                    </div>
+                </div>
+                <div class="footer-login mt-1">
+                </div>
+            </div>
+        </div>
     </section>
 
 </body>
