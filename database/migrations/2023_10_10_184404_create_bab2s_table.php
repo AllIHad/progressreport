@@ -15,7 +15,8 @@ class CreateBab2sTable extends Migration
     {
         Schema::create('bab2s', function (Blueprint $table) {
             $table->id();
-            $table->json('tinjauan_pustaka');
+            $table->json('comment')->nullable();
+            $table->json('pustaka');
             $table->timestamps();
         });
     }

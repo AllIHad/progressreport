@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBab3sTable extends Migration
+class CreateDosensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateBab3sTable extends Migration
      */
     public function up()
     {
-        Schema::create('bab3s', function (Blueprint $table) {
+        Schema::create('dosens', function (Blueprint $table) {
             $table->id();
-            $table->json('comment')->nullable();
-            $table->json('metode');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateBab3sTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bab3s');
+        Schema::dropIfExists('dosens');
     }
 }

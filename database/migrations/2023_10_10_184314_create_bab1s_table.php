@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use PhpOption\None;
 
 class CreateBab1sTable extends Migration
 {
@@ -15,9 +16,8 @@ class CreateBab1sTable extends Migration
     {
         Schema::create('bab1s', function (Blueprint $table) {
             $table->id();
-            $table->json('latar_belakang');
-            $table->json('tujuan');
-            $table->json('masalah');
+            $table->json('comment')->nullable();
+            $table->json('latar');
             $table->timestamps();
         });
     }

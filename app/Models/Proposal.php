@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Proposal extends Model
 {
     use HasFactory;
-    protected $casts = [
-        'bab1' => 'array',
-        'bab2'=>'array',
-        'bab3' => 'array',
+
+    protected $fillable=[
+        'judul',
+        
     ];
+
 }

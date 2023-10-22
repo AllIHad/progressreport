@@ -15,12 +15,12 @@ class CreateProposalsTable extends Migration
     {
         Schema::create('proposals', function (Blueprint $table) {
             $table->id();
-            $table->judul();
+            $table->string('judul')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('dosen_id');
-            $table->json('bab1');
-            $table->json('bab2');
-            $table->json('bab3');
+            $table->unsignedBigInteger('bab1_id');
+            $table->unsignedBigInteger('bab2_id');
+            $table->unsignedBigInteger('bab3_id');
             $table->timestamps();
         });
     }

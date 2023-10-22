@@ -15,7 +15,7 @@ class CreateSkripsisTable extends Migration
     {
         Schema::create('skripsis', function (Blueprint $table) {
             $table->id();
-            $table->judul();
+            $table->string('judul');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('dosen_id');
             $table->unsignedBigInteger('bab1_id');

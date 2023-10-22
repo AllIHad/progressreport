@@ -9,7 +9,8 @@ class Bab2 extends Model
 {
     use HasFactory;
     protected $casts = [
-        'tinjauan_pustaka' => 'array',
+        'pustaka' => 'array',
+        'comment' => 'array',
     ];
     
 }

@@ -10,5 +10,6 @@ class Bab3 extends Model
     use HasFactory;
     protected $casts = [
         'metode' => 'array',
+        'comment' => 'array',
     ];
 }
