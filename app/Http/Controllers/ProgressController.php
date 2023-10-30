@@ -27,9 +27,10 @@ class ProgressController extends Controller
 
     public function show($id)
     {
+        $progres = Progress::findOrFail($id);
 
         return view('progress.show', [
-            'id' => $id,
+            'progres' => $progres,
             
         ]);
     }
