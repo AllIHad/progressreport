@@ -9,11 +9,9 @@ class DosenController extends Controller
 {
     //
     public function index (){
-
-        $proposals = Proposal::latest()->get();
         
         return view('dosen.index', [
-            'proposals' => $proposals,
+            'progress' => 'progress'
         ]);
     }
 

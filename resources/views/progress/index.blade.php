@@ -26,7 +26,12 @@
                 <li class="breadcrumb-item"><a class="breadcrumb-item" href="#">Riwayat</a>
                 </li>
             </ol>
-            
+
+            <div>
+                <a class="btn btn-success mb-3" href="{{ route('proposal.create') }}">+ Sempro</a>
+                <a class="btn btn-success mb-3" href="{{ route('skripsi.create') }}">+ Skripsi</a>
+            </div>
+
             <table class="table table-responsive-lg table-bordered table-striped" style="width:100%" id="datatables">
                 <thead class="table-dark">
                     <tr>
@@ -38,18 +43,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        @if(!$progress)
-                        <td class="text-center" colspan="5">No Data Preview</td>
-                        @else
 
-                        <td class="text-center">Ahmad Fajri</td>
-                        <td class="text-center">Perkuliahan</td>
-                        <td class="text-center">RC1TI</td>
-                        <td class="bg-success text-center">Accepted</td>
-                        <td class="text-center">Senin, 16-10-2023 13.00</td>
-                        @endif
+
+                    @if(!$progress)
+                    <tr>
+                        <td class="text-center" colspan="5">No Data Preview</td>
                     </tr>
+                    @else 
+                    @foreach($progress as $progres)
+                    <tr>
+                        <td class="text-center" scope="col">{{ $progres->progress_report }}</td>
+                        @foreach($dosen_pembimbing as $dosen)
+                        <td class="text-center" scope="col">{{ $dosen->short_name }}</td>
+                        @endforeach
+                        <td class="text-center" scope="col">{{ $progres->status }}</td>
+                        <td class="bg-success text-center" scope="col">{{ $progres->created_at }}</td>
+                        <td class="text-center" scope="col"><a href="/progress/{{ $progres->id }}">Detail</a></td>
+                    </tr>
+                    @endforeach
+                    @endif
+
 
 
 

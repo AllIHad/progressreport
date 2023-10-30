@@ -1,141 +1,173 @@
 @extends('layout.layout')
 
 @section('content')
-<section class="min-vh-100 w-75 mx-auto my-5">
-    <h4 class="my-4 border-bottom p-2">Proposal</h4>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container">
+            <div>
+                <div class="anak-judul">
+                    <h4> Form Progress Report</h4>
+                    <hr>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
-    <form action="/proposal" method="POST">
-        @csrf
-
-        @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
-        <div class="input-group mb-3 col-lg-12 col-md-12">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Judul</span>
-            </div>
-            <input type="text" class="form-control" name="judul" aria-label="Username" aria-describedby="basic-addon1">
-        </div>
-
-        <div class="mb-3 col-lg-12 col-md-12">
-            <label for="dosen_id">Dosen Pembimbing : </label>
-            <select name="dosen_id" id="dosen_id">
-                <option value="1">player 1</option>
-                <option value="2">player 2</option>
-                <option value="3">player 3</option>
-                <option value="4">palyer 4</option>
-            </select>
-        </div>
-
-        <div id="bab1">
-            <div class="row justify-content-between">
-                <h4 class="mx-3 col-lg-3 col-sm-1">BAB 1</h4>
-                <button class="btn btn-light mr-4" type="button" id="add1">+</button>
-            </div>
-
-            <div class="form-outline mb-4 mx-3 ">
-                <label class="form-label font-weight-bold" for="form6Example7">Sub Judul</label>
-                <input type="text" id="form6Example4" name="latar[]" class="form-control" />
-            </div>
-
-            <!-- Message input -->
-            <div class="form-outline mb-4 mx-3">
-                <label class="form-label font-weight-bold" for="form6Example7">Keterangan</label>
-                <textarea class="form-control" id="form6Example7" name="latar[]" rows="4"></textarea>
-            </div>
-        </div>
+    <!-- Main content -->
+    <div class="content">
+        <div class="container">
 
 
-        <div id="bab2">
-            <div class="row justify-content-between">
-                <h4 class="mx-3 col-lg-3 col-sm-1">BAB 2</h4>
-                <button class="btn btn-light mr-4" type="button" id="add2">+</button>
-            </div>
+            <ol class="breadcrumb col-lg-12">
+                <li class="breadcrumb-item"><a class="breadcrumb-item active fw-bold text-black" href="{{ route('progress.index') }}">Progress Report</a></li>
+            </ol>
 
-            <div class="form-outline mb-4 mx-3">
-                <label class="form-label font-weight-bold" for="form6Example7">Sub Judul</label>
-                <input type="text" id="form6Example4" name="pustaka[]" class="form-control" />
-            </div>
+            <form action="/progress/proposal" method="POST">
+                @csrf
 
-            <!-- Message input -->
-            <div class="form-outline mb-4 mx-3">
-                <label class="form-label font-weight-bold" for="form6Example7">Keterangan</label>
-                <textarea class="form-control" id="form6Example7" name="pustaka[]" rows="4"></textarea>
-            </div>
-        </div>
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        Dosen
+                    </div>
+                    <div class="card-body">
+                        <div class="mx-auto">
+                            <div class="form-group row justify-content-center">
+                                <label class="col-sm-4 col-form-label">Dosen Pembimbing</label>
+                                <div class="col-sm-4">
+                                    <select class="custom-select" name="dosen_id">
+                                        <option selected>Select</option>
+                                        <option value="1">Dr. Feri Candra, S.T., M.T.</option>
+                                        <option value="2">Edi Susilo, S.Pd., M.Kom., M.Eng.</option>
+                                        <option value="3">T. Yudi Hadiwandra, S.Kom., M.Kom.</option>
+                                        <option value="4">Dian Ramadhani, S.T., M.T.</option>
+                                        <option value="5">Rahmat Rizal Andhi, S.T., M.T.</option>
+                                    </select>
+                                </div>
+                            </div>
+                            @error('dosen_id')
+                            <span class="d-flex justify-content-center fs-6 text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
 
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        BAB 1
+                    </div>
+                    <div class="card-body">
+                        <div class="mx-auto">
+                            <div class="form-group row justify-content-center">
+                                <label class="col-sm-12">Detail BAB 1</label>
+                                <div class="col-sm-12">
+                                    <textarea class="form-control" id="summernote" name="latar" placeholder="Detail"></textarea>
+                                </div>
+                            </div>
+                            @error('latar')
+                            <span class="d-flex justify-content-center fs-6 text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
 
-        <div id="bab3">
-            <div class="row justify-content-between">
-                <h4 class="mx-3 col-lg-3 col-sm-1">BAB 3</h4>
-                <button class="btn btn-light mr-4" type="button" id="add3">+</button>
-            </div>
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        BAB 2
+                    </div>
+                    <div class="card-body">
+                        <div class="mx-auto">
+                            <div class="form-group row justify-content-center">
+                                <label class="col-sm-12">Detail BAB 2</label>
+                                <div class="col-sm-12">
+                                    <textarea class="form-control" id="summernote2" name="pustaka" placeholder="Detail"></textarea>
+                                </div>
+                            </div>
+                            @error('pustaka')
+                            <span class="d-flex justify-content-center fs-6 text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
 
-            <div class="form-outline mb-4 mx-3">
-                <label class="form-label font-weight-bold" for="form6Example7">Sub Judul</label>
-                <input type="text" id="form6Example4" name="metode[]" class="form-control" />
-            </div>
+                </div>
 
-            <!-- Message input -->
-            <div class="form-outline mb-4 mx-3">
-                <label class="form-label font-weight-bold" for="form6Example7">Keterangan</label>
-                <textarea class="form-control" id="form6Example7" name="meotde[]" rows="4"></textarea>
-            </div>
-        </div>
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        BAB 3
+                    </div>
+                    <div class="card-body">
+                        <div class="mx-auto">
+                            <div class="form-group row justify-content-center">
+                                <label class="col-sm-12">Detail BAB 3</label>
+                                <div class="col-sm-12">
+                                    <textarea class="form-control" id="summernote3" name="metode" placeholder="Detail"></textarea>
+                                </div>
+                            </div>
+                            @error('metode')
+                            <span class="d-flex justify-content-center fs-6 text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
 
-        <button type="submit" class="btn btn-success btn-block mb-4 mx-3">Submit</button>
-    </form>
+                </div>
 
-    <script>
-        $('#add1').click(function() {
-            $('#bab1').append(`
-            <div class="form-outline mb-4 mx-3 ">
-                <label class="form-label font-weight-bold" for="form6Example7">Sub Judul</label>
-                <input type="text" id="form6Example4" name="latar[]" class="form-control" />
-            </div>
+                <input type="text" class="d-none" name="progress_report" value="Sempro">
 
-            <div class="form-outline mb-4 mx-3">
-                <label class="form-label font-weight-bold" for="form6Example7">Keterangan</label>
-                <textarea class="form-control" id="form6Example7" name="latar[]" rows="4"></textarea>
-            </div>
-        `);
-        });
+                <div class="d-flex justify-content-center mb-4">
+                    <button type="submit" class="btn btn-success"> Usulkan</button>
+                </div>
 
-        $('#add2').click(function() {
-            $('#bab2').append(`
-            <div class="form-outline mb-4 mx-3 ">
-                <label class="form-label font-weight-bold" for="form6Example7">Sub Judul</label>
-                <input type="text" id="form6Example4" name="pustaka[]" class="form-control" />
-            </div>
+            </form>
 
-            <div class="form-outline mb-4 mx-3">
-                <label class="form-label font-weight-bold" for="form6Example7">Keterangan</label>
-                <textarea class="form-control" id="form6Example7" name="pustaka[]" rows="4"></textarea>
-            </div>
-        `);
-        });
-
-        $('#add3').click(function() {
-            $('#bab3').append(`
-            <div class="form-outline mb-4 mx-3 ">
-                <label class="form-label font-weight-bold" for="form6Example7">Sub Judul</label>
-                <input type="text" id="form6Example4" name="metode[]" class="form-control" />
-            </div>
-
-            <div class="form-outline mb-4 mx-3">
-                <label class="form-label font-weight-bold" for="form6Example7">Keterangan</label>
-                <textarea class="form-control" id="form6Example7" name="metode[]" rows="4"></textarea>
-            </div>
-        `);
-        });
-    </script>
-
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
 </section>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ]
+        });
+    });
+    $(document).ready(function() {
+        $('#summernote2').summernote({
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ]
+        });
+    });
+    $(document).ready(function() {
+        $('#summernote3').summernote({
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ]
+        });
+    });
+</script>
+
 @endsection

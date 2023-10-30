@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\SkripsiController;
 use Illuminate\Support\Facades\Route;
@@ -17,25 +19,38 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::get('/skripsi', [SkripsiController::class, 'index'])->name('skripsi.index');
 
-Route::get('/skripsi/create', [SkripsiController::class, 'create'])->name('skrispi.create');
+Route::prefix('progress')->middleware('auth')->group(function(){
+    
+    Route::get('/',[ProgressController::class, 'index'])->name('progress.index');  
+    Route::get('/{id}',[ProgressController::class, 'show'])->name('progress.show');   
+    Route::get('/skripsi/create', [SkripsiController::class, 'create'])->name('skripsi.create');    
+    Route::post('/skripsi', [SkripsiController::class, 'store']);   
+    Route::get('/proposal/create', [ProposalController::class, 'create'])->name('proposal.create');
+    Route::post('/proposal', [ProposalController::class, 'store']);
+    
+});
 
-Route::get('/skripsi/{id}', [SkripsiController::class, 'show'])->name('skrispi.show');
+Route::prefix('dosen')->middleware([
+    'auth',
+    'isAdmin'
+    ])->group(function(){
 
-Route::post('/skripsi', [SkripsiController::class, 'store']);
+    Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
+    Route::get('/{id}', [DosenController::class, 'show'])->name('dosen.show');
 
-Route::get('/proposal', [ProposalController::class, 'index'])->name('proposal.index');
+});
 
-Route::get('/proposal/create', [ProposalController::class, 'create'])->name('proposal.create');
 
-Route::get('/proposal/{id}', [ProposalController::class, 'show'])->name('proposal.show');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
 
-Route::post('/proposal', [ProposalController::class, 'store']);
+Route::post('/register', [AuthController::class, 'store']);
 
-Route::get('/dosen', [DosenController::class, 'index'])->name('dosen.index');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/dosen/{id}', [DosenController::class, 'show'])->name('dosen.show');
+Route::post('/login', [AuthController::class, 'authenticate']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -2,24 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Validation\Rule;
+
 use App\Models\Bab1;
 use App\Models\Bab2;
 use App\Models\Bab3;
-use App\Models\Proposal;
-use Illuminate\Http\Request;
+use App\Models\Progress;
 
 class ProposalController extends Controller
 {
     //
-    public function index()
-    {
-
-        $proposals = Proposal::latest()->get();      
-
-        return view('proposal.index',[
-            'proposals' => $proposals,
-        ]);
-    }
 
     public function create()
     {
@@ -27,50 +19,29 @@ class ProposalController extends Controller
         return view('proposal.create');
     }
 
-    public function show($id)
-    {
-        $proposal = Proposal::findOrFail($id);
 
-        $bab1 = Bab1::findOrFail($proposal->bab1_id);
 
-        $bab2 = Bab2::findOrFail($proposal->bab2_id);
+    public function store(){ 
+        $validated = request()->validate(
+            [
+                'dosen_id' => [
+                    'string',
+                    Rule::in(['1','2','3'])
+                ],
+            ]
+        );
+    
 
-        $bab3 = Bab3::findOrFail($proposal->bab3_id);
+        $progress = new Progress(); 
 
-        return view('proposal.show', [
-            'bab1' => $bab1,
-            'bab2' => $bab2,
-            'bab3' => $bab3,
-        ]);
-    }
-
-    public function store(){
-
-        $bab1 = new Bab1();
-
-        $bab1->latar = request('latar');
-        $bab1->save();
-
-        $bab2 = new Bab2();
-
-        $bab2->pustaka = request('pustaka');
-        $bab2->save();
-
-        $bab3 = new Bab3();
-
-        $bab3->metode = request('metode');
-        $bab3->save();
-
-        $proposal = new Proposal(); 
-
-        $proposal->judul = request('judul');
-        $proposal->dosen_id = request('dosen_id');
-        $proposal->user_id = request('dosen_id');
-        $proposal->bab1_id = $bab1->id;
-        $proposal->bab2_id = $bab2->id;
-        $proposal->bab3_id = $bab3->id;
-        $proposal->save();
+        $progress->bab1 = request('latar');
+        $progress->bab2 = request('pustaka');
+        $progress->bab3 = request('metode');
+        $progress->dosen_id = request('dosen_id');
+        $progress->user_id = auth()->id();
+        $progress->progress_report = request('progress_report');
+        $progress->save();
         
-        return redirect('/proposal');
+        return redirect()->route('progress.index')->with('success','Skripsi created successfully');
     }   
 }
