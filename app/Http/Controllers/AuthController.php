@@ -36,7 +36,7 @@ class AuthController extends Controller
             ]
         );
 
-        return redirect()->route('progress.index')->with('success', 'Account created successfully');
+        return redirect()->route('login')->with('success', 'Account created successfully');
     }
 
     public function login()

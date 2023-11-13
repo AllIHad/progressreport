@@ -7,7 +7,7 @@
         <div class="container">
             <div>
                 <div class="anak-judul">
-                    <h4> Progress Mahasiswa
+                    <h4> Riwayat Mahasiswa
                     </h4>
                     <hr>
                 </div><!-- /.col -->
@@ -22,8 +22,8 @@
             <a href="{{route ('skripsi.create') }}"> <button class="mb-4 w-85 btn btn-success rounded border" type="button">+ Progress Skripsi</button></a>
             <a href="{{route ('proposal.create') }}"> <button class="mb-4 w-85 btn btn-success rounded border" type="button">+ Progress Proposal</button></a>
             <ol class="breadcrumb col-lg-12">
-                <li class="breadcrumb-item"><a class="breadcrumb-item active fw-bold text-black" href="{{route ('progress.index') }}">Daftar Progress</a></li>
-                <li class="breadcrumb-item"><a class="breadcrumb-item" href="{{ route('progress.riwayat') }}">Riwayat</a></li>
+                <li class="breadcrumb-item"><a class="breadcrumb-item" href="{{route ('progress.index') }}">Daftar Progress</a></li>
+                <li class="breadcrumb-item"><a class="breadcrumb-item active fw-bold text-black" href="{{route ('progress.riwayat') }}">Riwayat</a></li>
             </ol>
 
             <table class="table table-responsive-lg table-bordered table-striped" style="width:100%" id="datatables">
@@ -42,7 +42,7 @@
 
                     @if(!$progress)
                     <tr>
-                        <td class="text-center" colspan="5">No Data Preview</td>
+                        <td class="text-center" colspan="6">No Data Preview</td>
                     </tr>
                     @else
                     @foreach($progress as $progres)
@@ -56,10 +56,6 @@
                     </tr>
                     @endforeach
                     @endif
-
-
-
-
                 </tbody>
             </table>
 

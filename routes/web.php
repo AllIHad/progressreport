@@ -26,6 +26,7 @@ Route::get('/', function () {
 Route::prefix('progress')->middleware('auth')->group(function(){
     
     Route::get('/',[ProgressController::class, 'index'])->name('progress.index');  
+    Route::get('/riwayat',[ProgressController::class, 'riwayat'])->name('progress.riwayat');  
     Route::get('/{id}',[ProgressController::class, 'show'])->name('progress.show');   
     Route::get('/skripsi/create', [SkripsiController::class, 'create'])->name('skripsi.create');    
     Route::post('/skripsi', [SkripsiController::class, 'store']);   
@@ -40,8 +41,12 @@ Route::prefix('dosen')->middleware([
     ])->group(function(){
 
     Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
+    Route::get('/riwayat', [DosenController::class, 'riwayat'])->name('dosen.riwayat');
     Route::get('/{id}', [DosenController::class, 'show'])->name('dosen.show');
-
+    Route::put('/comment/{id}', [DosenController::class, 'comment']);
+    Route::put('/revisi/{id}', [DosenController::class, 'revisi']);
+    Route::put('/tolak/{id}', [DosenController::class, 'tolak']);
+    Route::put('/selesai/{id}', [DosenController::class, 'selesai']);
 });
 
 

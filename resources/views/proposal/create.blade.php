@@ -38,11 +38,7 @@
                                 <div class="col-sm-4">
                                     <select class="custom-select" name="dosen_id">
                                         <option selected>Select</option>
-                                        <option value="1">Dr. Feri Candra, S.T., M.T.</option>
-                                        <option value="2">Edi Susilo, S.Pd., M.Kom., M.Eng.</option>
-                                        <option value="3">T. Yudi Hadiwandra, S.Kom., M.Kom.</option>
-                                        <option value="4">Dian Ramadhani, S.T., M.T.</option>
-                                        <option value="5">Rahmat Rizal Andhi, S.T., M.T.</option>
+                                        <option value="{{ $dosen->name }}">{{ $dosen->name }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -62,7 +58,7 @@
                             <div class="form-group row justify-content-center">
                                 <label class="col-sm-12">Detail BAB 1</label>
                                 <div class="col-sm-12">
-                                    <textarea class="form-control" id="summernote" name="latar" placeholder="Detail"></textarea>
+                                    <textarea class="form-control" id="summernote" name="bab1" placeholder="Detail"></textarea>
                                 </div>
                             </div>
                             @error('latar')
@@ -81,7 +77,7 @@
                             <div class="form-group row justify-content-center">
                                 <label class="col-sm-12">Detail BAB 2</label>
                                 <div class="col-sm-12">
-                                    <textarea class="form-control" id="summernote2" name="pustaka" placeholder="Detail"></textarea>
+                                    <textarea class="form-control" id="summernote2" name="bab2" placeholder="Detail"></textarea>
                                 </div>
                             </div>
                             @error('pustaka')
@@ -101,7 +97,7 @@
                             <div class="form-group row justify-content-center">
                                 <label class="col-sm-12">Detail BAB 3</label>
                                 <div class="col-sm-12">
-                                    <textarea class="form-control" id="summernote3" name="metode" placeholder="Detail"></textarea>
+                                    <textarea class="form-control" id="summernote3" name="bab3" placeholder="Detail"></textarea>
                                 </div>
                             </div>
                             @error('metode')
@@ -111,8 +107,6 @@
                     </div>
 
                 </div>
-
-                <input type="text" class="d-none" name="progress_report" value="Sempro">
 
                 <div class="d-flex justify-content-center mb-4">
                     <button type="submit" class="btn btn-success"> Usulkan</button>
@@ -131,6 +125,14 @@
 <script>
     $(document).ready(function() {
         $('#summernote').summernote({
+            callbacks: {
+                onImageUpload: function(data) {
+                    data.pop();
+                }
+            },
+            disableDragAndDrop: true,
+            codeviewFilter: false,
+            codeviewIframeFilter: true,
             toolbar: [
                 // [groupName, [list of button]]
                 ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -144,6 +146,14 @@
     });
     $(document).ready(function() {
         $('#summernote2').summernote({
+            callbacks: {
+                onImageUpload: function(data) {
+                    data.pop();
+                }
+            },
+            disableDragAndDrop: true,
+            codeviewFilter: false,
+            codeviewIframeFilter: true,
             toolbar: [
                 // [groupName, [list of button]]
                 ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -157,6 +167,14 @@
     });
     $(document).ready(function() {
         $('#summernote3').summernote({
+            callbacks: {
+                onImageUpload: function(data) {
+                    data.pop();
+                }
+            },
+            disableDragAndDrop: true,
+            codeviewFilter: false,
+            codeviewIframeFilter: true,
             toolbar: [
                 // [groupName, [list of button]]
                 ['style', ['bold', 'italic', 'underline', 'clear']],

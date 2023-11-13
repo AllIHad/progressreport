@@ -15,11 +15,12 @@ class CreateProgressTable extends Migration
     {
         Schema::create('progress', function (Blueprint $table) {
             $table->id();
-            $table->string('judul')->default('Progress Report Menggunakan Metode Mods');
             $table->string('progress_report');
             $table->string('status')->default('Usulan');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('dosen_id');
+            $table->string('nama');
+            $table->string('dosen');
+            $table->unsignedBigInteger('seminar');
+            $table->integer('bimbingan')->default(0);
             $table->longText('bab1')->nullable();
             $table->longText('bab2')->nullable();
             $table->longText('bab3')->nullable();

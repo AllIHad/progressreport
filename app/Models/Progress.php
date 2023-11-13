@@ -10,20 +10,22 @@ class Progress extends Model
     use HasFactory;
 
     protected $fillable = [
-        'judul',
         'progress_report',
         'status',
-        'user_id',
-        'dosen_id',
+        'nama',
+        'dosen',
+        'seminar',
+        'bimbingan',
         'bab1_id',
         'bab2_id',
         'bab3_id',
         'bab4_id',
         'bab5_id',
+        'coomments'
     ];
 
     protected $casts = [
-        'comment' => 'array',
+        'comments' => 'array',
     ];
     
 }
