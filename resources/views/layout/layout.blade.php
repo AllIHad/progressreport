@@ -20,15 +20,8 @@
     <link rel="stylesheet" href="https://sitei.ft.unri.ac.id/assets/css/styles.css?v=0.001">
     <link rel="stylesheet" href="https://sitei.ft.unri.ac.id/assets/dataTables/datatables.min.css">
 
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 </head>
 
@@ -86,7 +79,7 @@
 
         <footer class="main-footer bg-dark">
             <div class="container">
-                <strong>Dikembangkan oleh Prodi Teknik Informatika UNRI (Fahril Hadi & Rahul Ilsa Tajri Mukhti)</strong>
+                <strong>Dikembangkan oleh Mahasiswa</strong>
             </div>
             <!-- Default to the left -->
             <!-- <strong>Copyright &copy; Jurusan Teknik Elektro</strong> -->
@@ -94,8 +87,135 @@
 
     </div>
 
-    @yield('script')
 
+
+
+    <script>
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                $(this).remove();
+            });
+        }, 2000);
+
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                callbacks: {
+                    onImageUpload: function(data) {
+                        data.pop();
+                    }
+                },
+                disableDragAndDrop: true,
+                codeviewFilter: false,
+                codeviewIframeFilter: true,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['table', ['table']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        });
+        $(document).ready(function() {
+            $('#summernote2').summernote({
+                callbacks: {
+                    onImageUpload: function(data) {
+                        data.pop();
+                    }
+                },
+                disableDragAndDrop: true,
+                codeviewFilter: false,
+                codeviewIframeFilter: true,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['table', ['table']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        });
+        $(document).ready(function() {
+            $('#summernote3').summernote({
+                callbacks: {
+                    onImageUpload: function(data) {
+                        data.pop();
+                    }
+                },
+                disableDragAndDrop: true,
+                codeviewFilter: false,
+                codeviewIframeFilter: true,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['table', ['table']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        });
+        $(document).ready(function() {
+            $('#summernote4').summernote({
+                callbacks: {
+                    onImageUpload: function(data) {
+                        data.pop();
+                    }
+                },
+                disableDragAndDrop: true,
+                codeviewFilter: false,
+                codeviewIframeFilter: true,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['table', ['table']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        });
+        $(document).ready(function() {
+            $('#summernote5').summernote({
+                callbacks: {
+                    onImageUpload: function(data) {
+                        data.pop();
+                    }
+                },
+                disableDragAndDrop: true,
+                codeviewFilter: false,
+                codeviewIframeFilter: true,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['table', ['table']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        });
+    </script>
+    <script src="https://sitei.ft.unri.ac.id/assets/plugins/jquery/jquery.min.js"></script>
+    <script src="https://sitei.ft.unri.ac.id/assets/dataTables/datatables.min.js"></script>
+    <script type="text/javascript">
+        $('#datatables').DataTable();
+    </script>
+
+    <!-- Bootstrap 4 -->
+    <script src="https://sitei.ft.unri.ac.id/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://sitei.ft.unri.ac.id/assets/dist/js/adminlte.min.js"></script>
+    <script src="https://sitei.ft.unri.ac.id/assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://sitei.ft.unri.ac.id/assets/dist/js/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 
 </html>

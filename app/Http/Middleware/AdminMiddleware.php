@@ -19,12 +19,12 @@ class AdminMiddleware
     {
         if(Auth::check()){
 
-            if(Auth::user()->role == '1'){
+            if(Auth::user()->role == '2'){
 
                 return $next($request);
 
             }else{
-                return redirect('/progress')->with('message', 'Access Denied');
+                return redirect()->route('dosen.index')->with('message', 'Access Denied');
             }
 
         }else{

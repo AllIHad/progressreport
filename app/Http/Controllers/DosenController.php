@@ -2,86 +2,93 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kosentrasi;
+use App\Models\Pendaftaran_skripsi;
+use App\Models\Prodi;
 use App\Models\Progress;
-use App\Models\Seminar;
+use App\Models\Proposals;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DosenController extends Controller
 {
     //
     public function index()
     {
-
-        $seminar = Seminar::where('dosen_id', auth()->id())->latest()->first();
-        $progress = Progress::where('seminar', $seminar?->id)->where('status', 'Usulan')->latest()->get();
+        $porposal = Proposals::where('pembimbing_nip', Auth::user()->username)->get();
 
         return view('dosen.index', [
-            'progress' => $progress
+            'proposals' => $porposal
         ]);
+    }
+
+    public function addproposal(Request $request, $id)
+    {
+        $proposal = Proposals::findOrFail($id);
+
+        $proposal->komentar = $request->komentar;
+        $proposal->keterangan = $request->keterangan;
+        $proposal->update();
+
+        return redirect()->route('dosen.index')->with('success', 'Proposal created successfully');
+    }
+
+    public function addinformation()
+    {
+        return view('modal.index');
     }
 
     public function riwayat()
     {
 
-        $seminar = Seminar::where('dosen_id', auth()->id())->latest()->first();
-        $progress = Progress::where('seminar', $seminar?->id)->whereIn('status', ['Selesai','Tolak','Revisi'])->latest()->get();
+        // $seminar = Seminar::where('dosen_id', auth()->id())->latest()->first();
+        // $progress = Progress::where('seminar', $seminar?->id)->whereIn('status', ['Selesai', 'Tolak', 'Revisi'])->latest()->get();
+        // $count = Progress::where('seminar', $seminar?->id)->where('status', 'Usulan')->count();
 
         return view('dosen.riwayat', [
-            'progress' => $progress 
+            // 'progress' => $progress,
+            // 'count' => $count
         ]);
-    }
-
-    public function comment($id)
-    {
-
-        $progress = Progress::findOrFail($id);
-
-        $progress->comments = request('comments');
-        $progress->update(); 
-
-        return redirect()->back()->with('message', 'Comments added');
     }
 
 
     public function show($id)
     {
 
-        $progress = Progress::findOrFail($id);
+        $proposal = Proposals::findOrFail($id);
+        $mahasiswa = User::where('username', $proposal->mahasiswa_nim)->first();
+        $pendaftaran_skripsi = Pendaftaran_skripsi::where('nim', $proposal->mahasiswa_nim)->first();
+        $prodi = Prodi::where('id', $mahasiswa->prodi_id)->first();
+        $konsentrasi = Kosentrasi::where('id', $mahasiswa->konsentrasi_id)->first();
 
         return view('dosen.show', [
-            'progress' => $progress,
+            'proposal' => $proposal,
+            'prodi' => $prodi,
+            'konsentrasi' => $konsentrasi,
+            'pendaftaran_skripsi' => $pendaftaran_skripsi
         ]);
-    }
-
-
-    public function revisi($id)
-    {
-        $progress = Progress::findOrFail($id);
-
-
-        $progress->status = 'Revisi';
-        $progress->update();
-
-        return redirect()->route('dosen.index')->with('success', 'Progress Revisi');
     }
 
     public function tolak($id)
     {
-        $progress = Progress::findOrFail($id);
 
-        $progress->status = 'Tolak';
-        $progress->update();
+        $proposal = Proposals::findOrFail($id);
 
-        return redirect()->route('dosen.index')->with('success', 'Progress di Tolak');
+        $proposal->komentar = '-';
+        $proposal->keterangan = 'Tidak Diterima';
+        $proposal->update();
+
+        return redirect()->route('dosen.index')->with('success', 'Proposal created successfully');
     }
 
-    public function selesai($id)
+
+    public function admin()
     {
-        $progress = Progress::findOrFail($id);
+        // $progress = Progress::whereIn('status', ['Usulan', 'Tolak', 'Selesai', 'Revisi'])->latest()->get();
 
-        $progress->status = 'Selesai';
-        $progress->update();
-
-        return redirect()->route('dosen.index')->with('success', 'Progress Selesai');
+        return view('dosen.admin', [
+            // 'progress' => $progress
+        ]);
     }
 }

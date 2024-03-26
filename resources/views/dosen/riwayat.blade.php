@@ -22,7 +22,7 @@
 
 
             <ol class="breadcrumb col-lg-12">
-                <li class="breadcrumb-item"><a class="breadcrumb-item" href="{{ route('dosen.index') }}">Progress</a></li>
+                <li class="breadcrumb-item"><a class="breadcrumb-item" href="{{ route('dosen.index') }}">Daftar Progress ({{ $count }})</a></li>
                 <li class="breadcrumb-item"><a class="breadcrumb-item active fw-bold text-black" href="{{ route('dosen.riwayat') }}">Riwayat</a>
                 </li>
             </ol>
@@ -50,9 +50,15 @@
                         <td class="text-center">{{ $progres->bimbingan }}</td>
                         <td class="text-center">{{ $progres->progress_report }}</td>
                         <td class="text-center">{{ $progres->nama }}</td>
-                        <td class="bg-success text-center">{{ $progres->created_at }}</td>
-                        <td class="text-center">{{ $progres->status }}</td>
-                        <td class="text-center"><a href="/dosen/{{ $progres->id }}">Detail</a></td>
+                        <td class="text-center">{{ $progres->created_at->format('d M Y')  }}</td>
+                        @if($progres->status =='Selesai')
+                        <td class="bg-success text-center">{{ $progres->status }}</td>
+                        @elseif($progres->status =='Revisi')
+                        <td class="bg-primary text-center">{{ $progres->status }}</td>
+                        @else
+                        <td class="bg-danger text-center">{{ $progres->status }}</td>
+                        @endif
+                        <td class="text-center"><a href="/dosen/{{ $progres->id }}" class="badge p-2 bg-info" style="border-radius : 20px;">Detail</a></td>
                     </tr>
                     @endforeach
                     @endif

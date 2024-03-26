@@ -57,7 +57,7 @@ class AuthController extends Controller
         if (auth()->attempt($validated)) {
             request()->session()->regenerate();
                 
-            return redirect()->route('dosen.index')->with('success', 'Login successfully');
+            return redirect()->route('admin.admin')->with('success', 'Login successfully');
 
         }
 

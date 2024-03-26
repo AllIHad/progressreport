@@ -23,30 +23,37 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('progress')->middleware('auth')->group(function(){
-    
-    Route::get('/',[ProgressController::class, 'index'])->name('progress.index');  
-    Route::get('/riwayat',[ProgressController::class, 'riwayat'])->name('progress.riwayat');  
-    Route::get('/{id}',[ProgressController::class, 'show'])->name('progress.show');   
-    Route::get('/skripsi/create', [SkripsiController::class, 'create'])->name('skripsi.create');    
-    Route::post('/skripsi', [SkripsiController::class, 'store']);   
+Route::prefix('progress')->middleware('auth')->group(function () {
+
+    Route::get('/', [ProgressController::class, 'index'])->name('progress.index');
+    Route::get('/riwayat', [ProgressController::class, 'riwayat'])->name('progress.riwayat');
+    Route::get('/{id}', [ProgressController::class, 'show'])->name('progress.show');
+    Route::get('/skripsi/create', [SkripsiController::class, 'create'])->name('skripsi.create');
+    Route::post('/skripsi', [SkripsiController::class, 'store']);
     Route::get('/proposal/create', [ProposalController::class, 'create'])->name('proposal.create');
     Route::post('/proposal', [ProposalController::class, 'store']);
-    
+    Route::put('/proposalupdate', [ProposalController::class, 'update']);
 });
 
 Route::prefix('dosen')->middleware([
     'auth',
-    'isAdmin'
-    ])->group(function(){
+    'isDosen',
+])->group(function () {
 
     Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
     Route::get('/riwayat', [DosenController::class, 'riwayat'])->name('dosen.riwayat');
     Route::get('/{id}', [DosenController::class, 'show'])->name('dosen.show');
-    Route::put('/comment/{id}', [DosenController::class, 'comment']);
-    Route::put('/revisi/{id}', [DosenController::class, 'revisi']);
-    Route::put('/tolak/{id}', [DosenController::class, 'tolak']);
-    Route::put('/selesai/{id}', [DosenController::class, 'selesai']);
+    Route::put('/addingproposal/{id}', [DosenController::class, 'addproposal'])->name('proposal.add');
+    Route::put('/tolakproposal/{id}', [DosenController::class, 'tolak']);
+    Route::post('/tambahketerangan', [DosenController::class, 'addinformation']);
+
+});
+
+Route::prefix('admin')->middleware([
+    'auth',
+    'isAdmin',
+])->group(function () {
+    Route::get('/', [DosenController::class, 'admin'])->name('admin.admin');
 });
 
 
