@@ -15,9 +15,12 @@ class CreatePendaftaranSkripsisTable extends Migration
     {
         Schema::create('pendaftaran_skripsis', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
+            $table->foreignId('konsentrasi_id');
+            $table->foreignId('prodi_id');
             $table->string('nim');
+            $table->string('judul');
             $table->string('pembimbing_nip');
+            $table->string('status');
             $table->timestamps();
         });
     }

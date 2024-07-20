@@ -11,18 +11,18 @@
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('/assets/dist/css/bootstrap.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('/assets/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" />
 
-    <!-- <link rel="stylesheet" href="http://127.0.0.1:8000/assets/css/style.css"> -->
+    <!-- <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}"> -->
     <!-- Theme style -->
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/css/style.css?v=0.001">
-    <!--<link rel="stylesheet" href="http://127.0.0.1:8000/assets/dataTables/datatables.min.css">-->
+    <link rel="stylesheet" href="{{ asset('/assets/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.css?v=0.001') }}">
+    <!--<link rel="stylesheet" href="{{ asset('/assets/dataTables/datatables.min.css') }}">-->
 
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css" rel="stylesheet">
@@ -31,7 +31,7 @@
 
     <script src="https://kit.fontawesome.com/9c94b38548.js" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         function mousedwn(e) {
             try {
                 if (event.button == 2 || event.button == 3) return false
@@ -46,7 +46,78 @@
             return false
         };
         document.onmousedown = mousedwn
-    </script>
+    </script> -->
+
+    <style>
+        .dropdown-menu {
+            border-left: 0.01px solid rgba(0, 0, 0, 0.05);
+            border-right: 0.01px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 0.01px solid rgba(0, 0, 0, 0.05);
+            border-top: 0.01px solid rgba(0, 0, 0, 0.05);
+            /* border: none; */
+            box-shadow: none;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+        .dropdown-menu form li:hover {
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+
+        @media screen and (max-width: 768px) {
+            .cardskripsi {
+                margin-bottom: 50px;
+            }
+
+            .dropdown-menu form li i {
+                margin-left: -15px;
+            }
+
+            .navbar-collapse {
+                /*background: rgba(0, 0, 0, 0.05);*/
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+
+            .dropdown-menu {
+                background: radial-gradient(circle at top left, #ffffff, #e5e5e5);
+
+            }
+
+            .navbar-nav li a {
+                text-align: center;
+            }
+
+            .navbar-nav li button {
+                text-align: center;
+            }
+
+        }
+
+        .dropdown-item:hover {
+            color: #0c8a4f;
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+        form li button:hover {
+            color: #0c8a4f;
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+        .cursor-default {
+            cursor: default !important;
+
+        }
+
+        .cursor-default:hover {
+            cursor: default !important;
+            color: #192f59 !important;
+            background-color: white !important;
+        }
+    </style>
 
 
 </head>
@@ -93,7 +164,7 @@
                                         </li>
 
                                         <form action="/logout" method="POST">
-                                            <input type="hidden" name="_token" value="1kf09BSG9Hzwus1sOH2nUzbqaEWfNVVz6tdaH9nz">
+                                            @csrf
                                             <li>
                                                 <button type="submit" class="dropdown-item">
                                                     <i class="bi bi-box-arrow-right"></i> <span>Keluar</span>
@@ -129,21 +200,39 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container">
-                    <a href="/progress/proposal/create" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Proposal</a>
-                    <a href="/progress/skripsi/create" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Skripsi</a>
+                    @if($lastProposal)
+                    @if($lastProposal->created_at->translatedFormat('d F Y') === $currentDate)
+                    <a href="#ModalApprove" data-toggle="modal" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Proposal</a>
+                    @else
+                    <a href="{{ route('proposal.create') }}" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Proposal</a>
+                    @endif
+                    @else
+                    <a href="{{ route('proposal.create') }}" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Proposal</a>
+                    @endif
+
+                    @if($lastSkripsi)
+                    @if($lastSkripsi->created_at->translatedFormat('d F Y') === $currentDate)
+                    <a href="#ModalApprove" data-toggle="modal" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Skripsi</a>
+                    @else
+                    <a href="{{ route('skripsi.create') }}" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Skripsi</a>
+                    @endif
+                    @else
+                    <a href="/progress/skripsi/tambah" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Skripsi</a>
+                    @endif
                     <div class="container card  p-4">
 
                         <ol class="breadcrumb col-lg-12">
                             <li>
-                                <a href="/progress" class="breadcrumb-item active fw-bold text-success px-1">Progress
-                                    (<span> 0 </span>)
+                                <a href="/progress" class="breadcrumb-item active fw-bold text-success px-1">Persetujuan
+                                    (<span>{{ $jumlah }}</span>)
                                 </a>
                             </li>
 
                             <span class="px-2">|</span>
                             <li>
-                                <a href="/progress/riwayat" class="px-1">Riwayat (<span>0</span>) </a>
+                                <a href="/progress/riwayat" class="px-1">Riwayat (<span>{{ $jumlah_riwayat }}</span>) </a>
                             </li>
+
                         </ol>
 
                         <div class="container-fluid">
@@ -155,24 +244,56 @@
                                         <th class="text-center" scope="col">Progress</th>
                                         <th class="text-center" scope="col">Pembimbing</th>
                                         <th class="text-center" scope="col">Status</th>
+                                        <th class="text-center" scope="col">Tanggal</th>
                                         <th class="text-center" scope="col">Keterangan</th>
                                         <th class="text-center " scope="col" style="padding-left: 50px; padding-right:50px;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($skripsis as $skripsi)
+                                    <tr>
+                                        <td class="text-center ">{{ $skripsi->bimbingan }}</td>
+                                        <td class="text-center ">{{ $skripsi->progress_report }} %</td>
+                                        <td class="text-center ">{{ $skripsi->pembimbing_nama }}</td>
+                                        <td class="text-center bg-info ">{{ $skripsi->status }}</td>
+                                        <td class="text-center ">{{ $skripsi->created_at->translatedFormat('l, d F Y') }}</td>
+                                        @if(!$skripsi->keterangan)
+                                        <td class="text-center ">{{ $skripsi->keterangan }}</td>
+                                        @elseif ($skripsi->keterangan == "Sangat Baik" || $skripsi->keterangan == "Baik")
+                                        <td class="text-center bg-success ">{{ $skripsi->keterangan }}</td>
+                                        @elseif ($skripsi->keterangan == " Diterima" || $skripsi->keterangan == "Cukup Diterima")
+                                        <td class="text-center bg-warning ">{{ $skripsi->keterangan }}</td>
+                                        @else
+                                        <td class="text-center bg-danger ">{{ $skripsi->keterangan }}</td>
+                                        @endif
+                                        <td class="text-center">
+                                            <div>
+                                                <a href='/progress/skripsi/{{ $skripsi->id }}' type="button" class="badge bg-info rounded border-0"><i class="fa
+                                                 fa-circle-info"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+
                                     @foreach($proposals as $proposal)
                                     <tr>
                                         <td class="text-center ">{{ $proposal->bimbingan }}</td>
                                         <td class="text-center ">{{ $proposal->progress_report }} %</td>
                                         <td class="text-center ">{{ $proposal->pembimbing_nama }}</td>
-                                        <td class="text-center ">{{ $proposal->status }}</td>
+                                        <td class="text-center bg-info ">{{ $proposal->status }}</td>
+                                        <td class="text-center ">{{ $proposal->created_at->translatedFormat('l, d F Y') }}</td>
+                                        @if(!$proposal->keterangan)
                                         <td class="text-center ">{{ $proposal->keterangan }}</td>
-                                        <td class="text-center d-flex justify-content-around">
+                                        @elseif ($proposal->keterangan == "Sangat Baik" || $proposal->keterangan == "Baik")
+                                        <td class="text-center bg-success ">{{ $proposal->keterangan }}</td>
+                                        @elseif ($proposal->keterangan == " Diterima" || $proposal->keterangan == "Cukup Diterima")
+                                        <td class="text-center bg-warning ">{{ $proposal->keterangan }}</td>
+                                        @else
+                                        <td class="text-center bg-danger ">{{ $proposal->keterangan }}</td>
+                                        @endif
+                                        <td class="text-center ">
                                             <div>
-                                                <a href='/progress/{{ $proposal->id }}'><i class="fas fa-pen"></i></a>
-                                            </div>
-                                            <div>
-                                                <a href='/'><i class="fa-solid fa-download"></i></a>
+                                                <a href='/progress/proposal/{{ $proposal->id }}' type="button" class="badge bg-info rounded border-0"><i class="fa fa-circle-info"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -199,6 +320,27 @@
             </div>
         </section>
 
+        <div class="modal fade" id="ModalApprove">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-sm">
+                    <div class="modal-body">
+                        <div class="container px-5 pt-5 pb-2">
+                            <h3 class="text-center">Batas Maksimal LogBook</h3>
+                            <p class="text-center">LogBook maksimal 1 kali 1 hari, coba lagi besok</p>
+                            <div class="row text-center">
+                                <div class="col-4">
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn p-2 px-3 btn-secondary" data-dismiss="modal">Tidak</button>
+                                </div>
+                                <div class="col-4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- <div class="footer bg-dark">
         <div class="container">

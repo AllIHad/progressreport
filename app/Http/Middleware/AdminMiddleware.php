@@ -22,7 +22,7 @@ class AdminMiddleware
             if(Auth::user()->role == '2'){
 
                 return $next($request);
-
+                
             }else{
                 return redirect()->route('dosen.index')->with('message', 'Access Denied');
             }

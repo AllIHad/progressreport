@@ -45,9 +45,9 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function authenticate()
+    public function authenticate(Request $request)
     {
-        $validated = request()->validate(
+        $validated = $request->validate(
             [
                 'username' => 'required',
                 'password' => 'required',
@@ -57,7 +57,7 @@ class AuthController extends Controller
         if (auth()->attempt($validated)) {
             request()->session()->regenerate();
                 
-            return redirect()->route('admin.admin')->with('success', 'Login successfully');
+            return redirect()->route('penglola')->with('success', 'Login successfully');
 
         }
 

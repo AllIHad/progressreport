@@ -1,6 +1,6 @@
 <!-- Modal -->
-@foreach($proposals as $proposal)
-<div class="modal fade" id="exampleModal-{{ $proposal->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@foreach($skripsis as $skripsi)
+<div class="modal fade" id="exampleModal-{{ $skripsi->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-dark">
@@ -9,13 +9,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/dosen/addingproposal/{{ $proposal->id }}" method="POST">
+      <form action="/dosen/addingskripsi/{{ $skripsi->id }}" method="POST">
         @csrf
         @method('PUT')
         <div class="modal-body">
           <div class="form-group">
             <label for="barang text-bolf">Komentar  :</label>
-            <textarea type="text" class="form-control" name="komentar"></textarea>
+            <textarea type="text" class="form-control form-control-lg" name="komentar"> </textarea>
             <label for="barang text-bolf">Skala     :</label>
             <select class="custom-select" name="keterangan">
               <option value="Sangat Baik">Sangat Baik</option>

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Progress;
-use App\Models\Seminar;
+use App\Models\Pendaftaran_skripsi;
+use App\Models\Pr_Skripsi;
 use App\Models\User;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 
 class SkripsiController extends Controller
@@ -14,91 +17,242 @@ class SkripsiController extends Controller
 
     public function create()
     {
-        // $seminar = Seminar::where('mahasiswa_id', auth()->id())->latest()->first();
-        // $futher = Progress::where('seminar', $seminar->id)->latest()->first();
+        $prskripsi = Pr_Skripsi::where('mahasiswa_nim', Auth::user()->username)->latest()->first();
+        $bimbingan_ke = 0;
 
-
-        // $dosen = User::where('id', $seminar->dosen_id)->first();
+        if ($prskripsi?->bimbingan) {
+            $bimbingan_ke = $prskripsi->bimbingan + 1;
+        } else {
+            $bimbingan_ke = 1;
+        }
 
         return view('skripsi.create', [
-            // 'dosen' => $dosen,
-            // 'futher' => $futher
+            'skripsi' => $prskripsi,
+            'bimbingan_ke' => $bimbingan_ke
         ]);
     }
 
 
 
-    public function store()
+    public function store(Request $request)
     {
-        $validated = request()->validate(
-            [
-                'dosen_id' => [
-                    'string',
-                    Rule::in([
-                        'Dr. Dahliyusmanto S.Kom., M.Sc.',
-                        'Dr. Irsan Taufik Ali, S.T., M.T.',
-                        'Dr. Feri Candra, S.T., M.T.',
-                        'Noveri Lysbetti Marpaung, S.T., M.Sc.',
-                        'Rahmat Rizal Andhi, S.T., M.T.',
-                        'T. Yudi Hadiwandra, S.Kom., M.Kom.',
-                        'Linna Oktaviana Sari, S.T., M.T.',
-                        'Salhazan Nasution, S.Kom., MIT.',
-                        'Edi Susilo, S.Pd., M.Kom., M.Eng.',
-                        'Dian Ramadhani, S.T., M.T.',
-                    ])
-                ]
-            ]
-        );
+        $pendaftaran_skripsi = Pendaftaran_skripsi::where('nim', Auth::user()->username)->latest()->first();
+        $dosen = User::where('username', $pendaftaran_skripsi->pembimbing_nip)->first();
 
-        $seminar = Seminar::where('mahasiswa_id', auth()->id())->latest()->first();
-        $futher = Progress::where('seminar', $seminar->id)->latest()->first();
-        $bimbingan_ke = $futher?->bimbingan + 1;
+        $request->validate([
+            'diskusi' => 'required',
+            'naskah' => 'mimes:pdf|max:10240',
+            'link' => 'required',
+            'bab1' => 'required',
+        ]);
+        // ddd($request->all());
 
-        $progress = new Progress();
-
-        $progress->bimbingan = $bimbingan_ke;
-        $progress->nama = auth()->user()->name;
-        $progress->dosen = request('dosen_id');
-        $progress->seminar = $seminar->id;
-        if ($futher?->status) {
-            if ($futher->bab1) {
-                $progress->bab1 = $futher->bab1;
-            } else {
-                $progress->bab1 = request('bab1');
-            }
-
-            if ($futher->bab2) {
-                $progress->bab2 = $futher->bab2;
-            } else {
-                $progress->bab2 = request('bab2');
-            }
-
-            if ($futher->bab3) {
-                $progress->bab3 = $futher->bab3;
-            } else {
-                $progress->bab3 = request('bab3');
-            }
-
-            if ($futher->bab4) {
-                $progress->bab4 = $futher->bab4;
-            } else {
-                $progress->bab4 = request('bab4');
-            }
-
-            if ($futher->bab5) {
-                $progress->bab5 = $futher->bab5;
-            } else {
-                $progress->bab5 = request('bab5');
-            }
+        $skripsi = new Pr_Skripsi();
+        if ($request->naskah) {
+            $skripsi->naskah = str_replace('public/', '', $request->file('naskah')->store('file'));
         } else {
-            $progress->bab1 = request('bab1');
-            $progress->bab2 = request('bab2');
-            $progress->bab3 = request('bab3');
-            $progress->bab3 = request('bab4');
-            $progress->bab3 = request('bab5');
+            $skripsi->naskah = 'file/1';
         }
-        $progress->progress_report = "Skripsi";
-        $progress->save();
+        $skripsi->bimbingan = $request->bimbingan_ke;
+        $skripsi->pendaftaran_skripsi = $pendaftaran_skripsi->id;
+        $skripsi->mahasiswa_nama = Auth::user()->name;
+        $skripsi->mahasiswa_nim = Auth::user()->username;
+        $skripsi->pembimbing_nama = $dosen->name;
+        $skripsi->pembimbing_nip = $dosen->username;
+        $skripsi->diskusi = $request->diskusi;
+        $skripsi->link = $request->link;
+        $skripsi->bab1 = $request->bab1;
+        if ($request->bab2) {
+            $skripsi->bab2 = $request->bab2;
+        }
+        if ($request->bab3) {
+            $skripsi->bab3 = $request->bab3;
+        }
+        if ($request->bab4) {
+            $skripsi->bab4 = $request->bab4;
+        }
+        if ($request->bab5) {
+            $skripsi->bab5 = $request->bab5;
+        }
+        $bab1_percent = 0;
+        $bab2_percent = 0;
+        $bab3_percent = 0;
+        $bab4_percent = 0;
+        $bab5_percent = 0;
+
+        $array_bab1 = count($request->bab1);
+
+        if ($array_bab1 == 6) {
+            $bab1_percent = 6;
+        } elseif ($array_bab1 == 5) {
+            $bab1_percent = 5;
+        } elseif ($array_bab1 == 4) {
+            $bab1_percent = 4;
+        } elseif ($array_bab1 == 3) {
+            $bab1_percent = 3;
+        } elseif ($array_bab1 == 2) {
+            $bab1_percent = 2;
+        } else {
+            $bab1_percent = 1;
+        }
+
+        if ($request->bab2) {
+            $array_bab2 = count($request->bab2);
+
+            if ($array_bab2 == 2) {
+                $bab2_percent = 25;
+            } else {
+                $bab2_percent = 12.5;
+            }
+        }
+
+        if ($request->bab3) {
+            $array_bab3 = count($request->bab3);
+
+            if ($array_bab3 == 2) {
+                $bab3_percent = 12;
+            } else {
+                $bab3_percent = 6;
+            }
+        }
+
+        if ($request->bab4) {
+            $array_bab4 = count($request->bab4);
+
+            if ($array_bab4 == 2) {
+                $bab4_percent = 55;
+            } else {
+                $bab4_percent = 27.5;
+            }
+        }
+
+        if ($request->bab5) {
+            $array_bab5 = count($request->bab5);
+
+            if ($array_bab5 == 2) {
+                $bab5_percent = 2;
+            } else {
+                $bab5_percent = 1;
+            }
+        }
+
+        $skripsi->progress_report = $bab1_percent + $bab2_percent + $bab3_percent + $bab4_percent + $bab5_percent;
+
+        $skripsi->tanggal = Carbon::now();
+        $skripsi->save();
+
+        return redirect()->route('progress.index')->with('success', 'Progress Report Skripsi created successfully');
+    }
+
+    public function skripsiupdate(Request $request)
+    {
+        $request->validate([
+            'diskusi' => 'required',
+            'naskah' => 'mimes:pdf|max:10000',
+            'bab1' => 'required',
+        ]);
+
+        $pendaftaranSkripsi = Pendaftaran_skripsi::where('nim', Auth::user()->username)->latest()->first(); 
+        $skripsi = Pr_Skripsi::where('mahasiswa_nim', Auth::user()->username)->latest()->first();
+        $path = public_path('storage/' . $skripsi->naskah);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        $newSkripsi = new Pr_Skripsi();
+        $newSkripsi->bimbingan = $request->bimbingan_ke;
+        $newSkripsi->id = $pendaftaranSkripsi->id;
+        $newSkripsi->diskusi = $request->diskusi;
+        $newSkripsi->mahasiswa_nama = Auth::user()->name;
+        $newSkripsi->mahasiswa_nim = Auth::user()->username;
+        $newSkripsi->pembimbing_nama = $skripsi->pembimbing_nama;
+        $newSkripsi->pembimbing_nip = $skripsi->pembimbing_nip;
+        $newSkripsi->link = $request->link;
+        if ($request->naskah) {
+            $newSkripsi->naskah = str_replace('public/', '', $request->file('naskah')->store('file'));
+        } else {
+            $newSkripsi->naskah = 'file/1';
+        }
+        $newSkripsi->bab1 = $request->bab1;
+        if ($request->bab2) {
+            $newSkripsi->bab2 = $request->bab2;
+        }
+        if ($request->bab3) {
+            $newSkripsi->bab3 = $request->bab3;
+        }
+        if ($request->bab4) {
+            $newSkripsi->bab4 = $request->bab4;
+        }
+        if ($request->bab5) {
+            $newSkripsi->bab5 = $request->bab5;
+        }
+
+        $bab1_percent = 0;
+        $bab2_percent = 0;
+        $bab3_percent = 0;
+        $bab4_percent = 0;
+        $bab5_percent = 0;
+
+        $array_bab1 = count($request->bab1);
+
+        if ($array_bab1 == 6) {
+            $bab1_percent = 6;
+        } elseif ($array_bab1 == 5) {
+            $bab1_percent = 5;
+        } elseif ($array_bab1 == 4) {
+            $bab1_percent = 4;
+        } elseif ($array_bab1 == 3) {
+            $bab1_percent = 3;
+        } elseif ($array_bab1 == 2) {
+            $bab1_percent = 2;
+        } else {
+            $bab1_percent = 1;
+        }
+
+
+        if ($request->bab2) {
+            $array_bab2 = count($request->bab2);
+
+            if ($array_bab2 == 2) {
+                $bab2_percent = 25;
+            } else {
+                $bab2_percent = 12.5;
+            }
+        }
+
+        if ($request->bab3) {
+            $array_bab3 = count($request->bab3);
+
+            if ($array_bab3 == 2) {
+                $bab3_percent = 12;
+            } else {
+                $bab3_percent = 6;
+            }
+        }
+
+        if ($request->bab4) {
+            $array_bab4 = count($request->bab4);
+
+            if ($array_bab4 == 2) {
+                $bab4_percent = 55;
+            } else {
+                $bab4_percent = 27.5;
+            }
+        }
+        if ($request->bab5) {
+            $array_bab5 = count($request->bab5);
+
+            if ($array_bab5 == 2) {
+                $bab5_percent = 2;
+            } else {
+                $bab5_percent = 1;
+            }
+        }
+
+        $newSkripsi->progress_report = $bab1_percent + $bab2_percent + $bab3_percent + $bab4_percent + $bab5_percent;
+        $newSkripsi->tanggal = Carbon::now();
+
+        $newSkripsi->save();
 
         return redirect()->route('progress.index')->with('success', 'Skripsi created successfully');
     }

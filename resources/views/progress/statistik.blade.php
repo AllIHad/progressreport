@@ -6,8 +6,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> SITEI | Progress Report
+    <title> SITEI | Persetujuan Kerja Praktek dan Skripsi
     </title>
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="{{ asset('/assets/dist/css/bootstrap.min.css') }}">
@@ -29,6 +30,7 @@
     <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css" rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/9c94b38548.js" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 
     <!-- <script type="text/javascript">
         function mousedwn(e) {
@@ -118,6 +120,7 @@
         }
     </style>
 
+
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -186,7 +189,7 @@
                 <div class="container">
                     <div>
                         <div class="anak-judul">
-                            <h4> Progress Report
+                            <h4>Progress Report
                             </h4>
                             <hr>
                         </div><!-- /.col -->
@@ -199,61 +202,50 @@
             <div class="content">
                 <div class="container">
 
+                    <a href="/progress/proposal/tambah" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Proposal</a>
+                    <a href="/progress/skripsi/tambah" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Skripsi</a>
+
                     <div class="container card  p-4">
 
                         <ol class="breadcrumb col-lg-12">
                             <li>
-                                <a href="{{ route('dosen.index') }}" class="px-1">Persetujuan
-                                    (<span> {{ $jumlah }} </span>)
+                                <a href="/progress" class="px-1">Persetujuan
+                                    (<span>{{ $jumlah }}</span>)
                                 </a>
                             </li>
 
                             <span class="px-2">|</span>
                             <li>
-                                <a href="/dosen/riwayat" class="px-1">Riwayat (<span>{{ $jumlah_riwayat }}</span>) </a>
+                                <a href="/progress/riwayat" class="px-1">Riwayat (<span>{{ $jumlah_skripsi }}</span>) </a>
                             </li>
 
                             <span class="px-2">|</span>
                             <li>
-                                <a href="{{ route('dosen.bimbingan') }}" class=" px-1">Bimbingan</a>
+                                <a href="/progress/statistik" class="breadcrumb-item active fw-bold text-success px-1">Statistik</a>
                             </li>
 
-                            @if(Auth::user()->role == 2)
-                            <span class="px-2">|</span>
-                            <li>
-                                <a href="/admin/pengelola" class="breadcrumb-item active fw-bold text-success px-1">Pengelola</a>
-                            </li>
-                            @endif
                         </ol>
 
                         <div class="container-fluid">
 
-                            <table class="table table-responsive-lg table-bordered table-striped" width="100%" id="datatables">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th class="text-center" scope="col">NIM</th>
-                                        <th class="text-center" scope="col">Nama</th>
-                                        <th class="text-center" scope="col">Program Studi</th>
-                                        <th class="text-center" scope="col">Konsentrasi</th>
-                                        <th class="text-center" scope="col">Status</th>
-                                        <th class="text-center " scope="col" style="padding-left: 50px; padding-right:50px;">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($pendaftaran_skripsis as $judul)
-                                    <tr>
-                                        <td class="text-center ">{{ $judul->nim }}</td>
-                                        <td class="text-center ">{{ $judul->users[0]->name }}</td>
-                                        <td class="text-center ">{{ $judul->prodis[0]->nama_prodi }}</td>
-                                        <td class="text-center ">{{ $judul->konsentrasi[0]->nama_konsentrasi }}</td>
-                                        <td class="text-center ">{{ $judul->status }}</td>
-                                        <td class="text-center ">
-                                            <a href='/dosen/statistik/{{ $judul->nim }}' type="button" class="badge bg-info rounded border-0"><i class="fa fa-bar-chart"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            <div class="card mt-4 mb-4 rounded bg-success ">
+                                <div class="p-2 pt-3">
+                                    <h5 class="text-center text-bold">
+                                        Laporan Kemajuan
+                                    </h5>
+                                </div>
+                            </div>
+
+                            <div class="card pt-4 pb-4">
+                                <div class="row">
+                                    <div class="col-lg-6 ">
+                                        <div id="container" style="width:100%; height:400px;"></div>
+                                    </div>
+                                    <div class="col-lg-6 ">
+                                        <div id="container2" style="width:100%; height:400px;"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -272,7 +264,6 @@
                 <p class="developer">Dikembangkan oleh Prodi Teknik Informatika UNRI <a class="text-success fw-bold" formtarget="_blank" target="_blank" href="/developer/m-seprinaldi">( M. Seprinaldi )</a></p>
             </div>
         </section>
-
         <!-- <div class="footer bg-dark">
         <div class="container">
           <p class="developer">Dikembangkan oleh Prodi Teknik Informatika UNRI</p>
@@ -293,8 +284,6 @@
         <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-
-
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
@@ -397,6 +386,116 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <script src="http://127.0.0.1:8000/js/sweetalert2.min.js"></script>
+        <script>
+            let dataProgressSkripsi = <?php echo json_encode($progressReportSkripsi) ?>;
+            let dataBimbinganSkripsi = <?php echo json_encode($bimbinganSkripsi) ?>;
+             document.addEventListener('DOMContentLoaded', function() {
+                const chart = Highcharts.chart('container', {
+                    chart: {
+                        type: 'column'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Persentase Progress Skripsi'
+                    },
+                    xAxis: {
+                        categories: dataBimbinganSkripsi,
+                        
+                    },
+                    yAxis: {
+                        min: 0,
+                        max: 100,
+                        labels: {
+                            formatter: function() {
+                                return this.value + "%";
+                            }
+                        },
+                        title: {
+                            text: 'Persentase'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<b>Bimbingan Ke {point.key}</b><br/>',
+                        pointFormat: '{series.name}: {point.y}%<br/>Total: {point.stackTotal}',
+                        shared: true
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true,
+                                format: '{y} %',
+                                style: {
+                                    textOutline: 'none'
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Progress Report',
+                        data: dataProgressSkripsi
+                    }]
+                });
+            });
+        </script>
+
+        <script>
+            let dataProgresProposal = <?php echo json_encode($progressReportProposal) ?>;
+            let dataBimbinganProposal = <?php echo json_encode($bimbinganProposal) ?>;
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const chart = Highcharts.chart('container2', {
+                    chart: {
+                        type: 'column'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Persentase Progress Proposal'
+                    },
+                    xAxis: {
+                        categories: dataBimbinganProposal
+                        
+                    },
+                    yAxis: {
+                        min: 0,
+                        max: 100,
+                        labels: {
+                            formatter: function() {
+                                return this.value + "%";
+                            }
+                        },
+                        title: {
+                            text: 'Persentase'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<b>Bimbingan Ke {point.key}</b><br/>',
+                        pointFormat: '{series.name}: {point.y}%<br/>Total: {point.stackTotal}',
+                        shared: true
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true,
+                                format: '{y} %',
+                                style: {
+                                    textOutline: 'none'
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Progress Report',
+                        data: dataProgresProposal
+                    }]
+                });
+            });
+        </script>
 
 </body>
 

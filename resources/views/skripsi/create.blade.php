@@ -4,23 +4,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> SITEI | Daftar Sidang Skripsi
+    <title> SITEI | Progress Report
     </title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('/assets/dist/css/bootstrap.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('/assets/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" />
 
-    <!-- <link rel="stylesheet" href="http://127.0.0.1:8000/assets/css/style.css"> -->
+    <!-- <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}"> -->
     <!-- Theme style -->
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/css/style.css?v=0.001">
-    <!--<link rel="stylesheet" href="http://127.0.0.1:8000/assets/dataTables/datatables.min.css">-->
+    <link rel="stylesheet" href="{{ asset('/assets/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/dokumen.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.css?v=0.001') }}">
+    <!--<link rel="stylesheet" href="{{ asset('/assets/dataTables/datatables.min.css') }}">-->
 
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css" rel="stylesheet">
@@ -46,6 +47,77 @@
         document.onmousedown = mousedwn
     </script> -->
 
+    <style>
+        .dropdown-menu {
+            border-left: 0.01px solid rgba(0, 0, 0, 0.05);
+            border-right: 0.01px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 0.01px solid rgba(0, 0, 0, 0.05);
+            border-top: 0.01px solid rgba(0, 0, 0, 0.05);
+            /* border: none; */
+            box-shadow: none;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+        .dropdown-menu form li:hover {
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+
+        @media screen and (max-width: 768px) {
+            .cardskripsi {
+                margin-bottom: 50px;
+            }
+
+            .dropdown-menu form li i {
+                margin-left: -15px;
+            }
+
+            .navbar-collapse {
+                /*background: rgba(0, 0, 0, 0.05);*/
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+
+            .dropdown-menu {
+                background: radial-gradient(circle at top left, #ffffff, #e5e5e5);
+
+            }
+
+            .navbar-nav li a {
+                text-align: center;
+            }
+
+            .navbar-nav li button {
+                text-align: center;
+            }
+
+        }
+
+        .dropdown-item:hover {
+            color: #0c8a4f;
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+        form li button:hover {
+            color: #0c8a4f;
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+        .cursor-default {
+            cursor: default !important;
+
+        }
+
+        .cursor-default:hover {
+            cursor: default !important;
+            color: #192f59 !important;
+            background-color: white !important;
+        }
+    </style>
+
 
 </head>
 
@@ -69,73 +141,29 @@
                         <ul class="navbar-nav">
 
 
-
-
-
-
-
-
-
-
-
-
-
-                            <li class="nav-item dropdown baru">
-                                <a id="dropdownSubMenu1" href="" aria-current="page" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">KP/Skripsi</a>
-                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="border-radius:10px;">
-                                    <li class="nav-item">
-                                        <a class="nav-link           " aria-current="page" href="/kp-skripsi">Usulan</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link  " aria-current="page" href="/jadwal">Seminar</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link  " aria-current="page" href="/seminar">Download</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link  " aria-current="page" href="/statistik">Statistik</a>
-                                    </li>
-                                </ul>
-                            </li>
                             <li class="nav-item">
-                                <a class="nav-link  " aria-current="page" href="/inventaris/peminjamanmhs">Inventaris</a>
+                                <a class="nav-link  " aria-current="page" href="/inventaris/peminjaman-dosen">Progress Report</a>
+
                             </li>
-
-                            <!-- <li class="nav-item dropdown baru">
-            <a id="dropdownSubMenu1" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">KP/TA</a>
-            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow"style="border-radius:10px;">
-              <li>
-                <a href="/usulankp/create" class="dropdown-item mb-1  ">KP</a>
-              </li>
-              <li><a href="/usuljudul/create" class="dropdown-item mb-1 ">Skripsi</a></li>
-              <li><a href="/statistik" class="dropdown-item mb-1 ">Statistik</a></li>
-            </ul>
-          </li> -->
-
-
-
-
 
                         </ul>
 
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Rahul Ilsa Tajri Mukhti
+                                    {{ Auth::user()->name }}
                                 </a>
                                 <div>
                                     <ul class="dropdown-menu dropdown-menu-end" style="border-radius:10px;" aria-labelledby="navbarDropdown">
 
-
                                         <li>
-                                            <a class="nav-link dropdown-item " href="/profil-mhs/editpasswordmhs/">
+                                            <a class="nav-link dropdown-item " href="/profil-dosen/editpassworddsn/">
                                                 <i class="bi bipw bi-key"></i> Ubah Password
                                             </a>
                                         </li>
 
-
                                         <form action="/logout" method="POST">
-                                            <input type="hidden" name="_token" value="fE3LvxPItF7GjgBHEbnuC0ag8SI1YTcQPHKX8oIE">
+                                            <input type="hidden" name="_token" value="1kf09BSG9Hzwus1sOH2nUzbqaEWfNVVz6tdaH9nz">
                                             <li>
                                                 <button type="submit" class="dropdown-item">
                                                     <i class="bi bi-box-arrow-right"></i> <span>Keluar</span>
@@ -171,221 +199,301 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container">
-                    <div class="container">
-                        <a href="{{ url()->previous() }}" class="btn btn-success py-1 px-2 mb-4"><i class="fas fa-arrow-left fa-xs"></i> Kembali
-                            <a>
-                    </div>
-                    <form action="/daftar-sidang/create/1" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="_method" value="put"> <input type="hidden" name="_token" value="fE3LvxPItF7GjgBHEbnuC0ag8SI1YTcQPHKX8oIE">
-                        <div class="row">
-                     
-                            <div class="col-lg-6 col-md-12">
-                               
+                    <a href="{{ url()->previous() }}" class="btn btn-success py-1 px-2 mb-4"><i class="fas fa-arrow-left fa-xs"></i> Kembali
+                        <a>
+                </div>
+                <div class="container">
+                    <div class="row pb-5">
+                        <div class="col-lg-8">
+                            <div class="dokumen-card">
+                                <div>
+                                    <h2>Laporan Kemajuan</h2>
+                                    <div class="divider-green"></div>
+                                </div>
+                                @if($skripsi)
+                                <form action="/progress/skripsiupdate" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    @else
+                                    <form action="/progress/skripsi" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        @endif
 
-                                <!-- //JURNALL -->
-                                <div class="mb-3 field">
-                                    <label for="indeksasi_jurnal" class="form-label">Dosen Pembimbing</label>
-                                    <select name="indeksasi_jurnal" class="form-select ">
-                                        <option value="">Tanpa Jurnal</option>
-                                        <option value="Q1">Q1</option>
-                                        <option value="Q2">Q2</option>
-                                        <option value="Q3">Q3</option>
-                                        <option value="Q4">Q4</option>
-                                        <option value="Sinta 1">Sinta 1</option>
-                                        <option value="Sinta 2">Sinta 2</option>
-                                        <option value="Sinta 3">Sinta 3</option>
-                                        <option value="Sinta 4">Sinta 4</option>
-                                        <option value="IEEE">IEEE</option>
-                                        <option value="IOP">IOP</option>
-                                        <option value="SCOPUS">SCOPUS</option>
-                                    </select>
+                                        <div class="row">
+
+
+
+                                            <div class="mb-3 field">
+                                                <label class="form-label pb-0">Bimbingan Ke</label>
+                                                <input type="int" name="bimbingan_ke" class="form-control" value="{{ $bimbingan_ke }}" readonly>
+                                            </div>
+
+                                            <div class="mb-3 field">
+                                                <label class="form-label pb-0">Diskusi</label>
+                                                <textarea type="text" name="diskusi" class="form-control form-control-lg"> </textarea>
+                                            </div>
+
+                                            <div class="mb-3 field">
+                                                <label for="formFile" class="form-label float-start">File Skripsi <small class="text-secondary">(Format .pdf | Maks. 10 MB) </small></label>
+                                                <input name="naskah" class="form-control " type="file" id="formFile">
+                                                @error('naskah')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="mb-3 field">
+                                                <label for="formFile" class="form-label float-start">Link <small class="text-secondary">(Upload Goggle Drive) </small></label>
+                                                <input name="link" class="form-control " id="formFile">
+                                                @error('link')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+
+                                        </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="dokumen-card">
+                                <div>
+                                    <h2>Detail Skripsi</h2>
+                                    <div class="divider-green"></div>
                                 </div>
 
                                 <div class="mb-3 field">
-                                    <label class="form-label float-start">Keterangan Proposal</label>
-                                    <textarea id="w3review" name="w3review" rows="4" value="" cols="76"> </textarea>
+
+                                    <label class="form-label ">BAB 1 <small class="text-secondary"> (Centang Bila Selesai)</small></label> <br />
+                                    <div class="form-check">
+
+                                        <input type="checkbox" class="form-check-input " name="bab1[]" value="Latar Belakang">Latar Belakang <br />
+                                        <input type="checkbox" class="form-check-input " name="bab1[]" value="Perumusan Masalah">Perumusan Masalah <br />
+                                        <input type="checkbox" class="form-check-input " name="bab1[]" value="Tujuan Penelitian">Tujuan Penelitian <br />
+                                        <input type="checkbox" class="form-check-input " name="bab1[]" value="Batasan Masalah">Batasan Masalah <br />
+                                        <input type="checkbox" class="form-check-input " name="bab1[]" value="Manfaat Penelitian">Manfaat Penelitian <br />
+                                        <input type="checkbox" class="form-check-input " name="bab1[]" value="Sistematika Penelitian">Sistematika Penelitan <br />
+                                    </div>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="formFile" class="form-label float-start">File Proposal <small class="text-secondary">(Format .pdf | Maks. 5 MB) </small></label>
-                                    <input name="file_jurnal" class="form-control " value="" type="file" id="formFile">
 
+                                <div class="mb-3 field">
+
+                                    <label class="form-label ">BAB 2 <small class="text-secondary"> (Centang Bila Selesai)</small></label> <br />
+                                    <div class="form-check">
+
+                                        <input type="checkbox" class="form-check-input " name="bab2[]" value="Penelitian Terdahulu">Penelitian Terdahulu <br />
+                                        <input type="checkbox" class="form-check-input " name="bab2[]" value="Teori Pendukung">Teori Pendukung <br />
+                                    </div>
                                 </div>
-                                
 
+                                <div class="mb-3 field">
 
+                                    <label class="form-label ">BAB 3 <small class="text-secondary"> (Centang Bila Selesai)</small></label> <br />
+                                    <div class="form-check">
+
+                                        <input type="checkbox" class="form-check-input " name="bab3[]" value="Metode Penelitian">Metode Penelitian <br />
+                                        <input type="checkbox" class="form-check-input " name="bab3[]" value="Metode Pengembangan">Metode Pengembangan / Tahapan Penelitian <br />
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 field">
+
+                                    <label class="form-label ">BAB 4 <small class="text-secondary"> (Centang Bila Selesai)</small></label> <br />
+                                    <div class="form-check">
+
+                                        <input type="checkbox" class="form-check-input " name="bab4[]" value="Hasil">Hasil <br />
+                                        <input type="checkbox" class="form-check-input " name="bab4[]" value="Pembahasan">Pembahasan <br />
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 field">
+
+                                    <label class="form-label ">BAB 5 <small class="text-secondary"> (Centang Bila Selesai)</small></label> <br />
+                                    <div class="form-check">
+
+                                        <input type="checkbox" class="form-check-input " name="bab5[]" value="Kesimpulan">Kesimpulan <br />
+                                        <input type="checkbox" class="form-check-input " name="bab5[]" value="Saran">Saran <br />
+                                    </div>
+                                </div>
 
                             </div>
+                            
                         </div>
-                        <a href="#ModalApprove" data-toggle="modal" class="btn mt-4 btn-lg btn-success ">Usulkan Progress</a>
-                        <div class="modal fade" id="ModalApprove">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content shadow-sm">
-                                    <div class="modal-body">
-                                        <div class="container px-5 pt-5 pb-2">
-                                            <h3 class="text-center">Apakah Anda Yakin?</h3>
-                                            <p class="text-center">Jika belum, silahkan cek kembali Data yang akan Anda Kirim.</p>
-                                            <div class="row text-center">
-                                                <div class="col-3">
-                                                </div>
-                                                <div class="col-3">
-                                                    <button type="button" class="btn p-2 px-3 btn-secondary" data-dismiss="modal">Tidak</button>
-                                                </div>
-                                                <div class="col-3">
-                                                    <button type="submit" class="btn btn-success py-2 px-3">Kirim</button>
-                                                </div>
-                                                <div class="col-3">
-                                                </div>
+
+
+                    </div>
+                    <a href="#ModalApprove" data-toggle="modal" class="btn mt-4 btn-lg btn-success ">Usulkan Progress</a>
+                </div>
+
+                    <div class="modal fade" id="ModalApprove">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content shadow-sm">
+                                <div class="modal-body">
+                                    <div class="container px-5 pt-5 pb-2">
+                                        <h3 class="text-center">Apakah Anda Yakin?</h3>
+                                        <p class="text-center">Jika belum, silahkan cek kembali Data yang akan Anda Kirim.</p>
+                                        <div class="row text-center">
+                                            <div class="col-3">
+                                            </div>
+                                            <div class="col-3">
+                                                <button type="button" class="btn p-2 px-3 btn-secondary" data-dismiss="modal">Tidak</button>
+                                            </div>
+                                            <div class="col-3">
+                                                <button type="submit" class="btn btn-success py-2 px-3">Kirim</button>
+                                            </div>
+                                            <div class="col-3">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </form>
-
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                </div><!-- /.container-fluid -->
+                </div>
             </div>
-            <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
 
-        <!-- Main Footer -->
 
-        <section class="bg-dark p-1">
-            <div class="container">
-                <p class="developer">Dikembangkan oleh Prodi Teknik Informatika UNRI <a class="text-success fw-bold" formtarget="_blank" target="_blank" href="/developer/m-seprinaldi">( M. Seprinaldi )</a></p>
-            </div>
-        </section>
-        <!-- <div class="footer bg-dark">
+    </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+
+    <section class="bg-dark p-1">
+        <div class="container">
+            <p class="developer">Dikembangkan oleh Prodi Teknik Informatika UNRI <a class="text-success fw-bold" formtarget="_blank" target="_blank" href="/developer/m-seprinaldi">( M. Seprinaldi )</a></p>
+        </div>
+    </section>
+    <!-- <div class="footer bg-dark">
         <div class="container">
           <p class="developer">Dikembangkan oleh Prodi Teknik Informatika UNRI</p>
         </div>
       </div> -->
 
 
-        <!-- ./wrapper -->
+    <!-- ./wrapper -->
 
-        <!-- REQUIRED SCRIPTS -->
-
-
-        <!-- jQuery -->
-        <!--<script src="http://127.0.0.1:8000/assets/plugins/jquery/jquery.min.js"></script>-->
-        <!--<script src="http://127.0.0.1:8000/assets/dataTables/datatables.min.js"></script>-->
+    <!-- REQUIRED SCRIPTS -->
 
 
-        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <!-- jQuery -->
+    <!--<script src="http://127.0.0.1:8000/assets/plugins/jquery/jquery.min.js"></script>-->
+    <!--<script src="http://127.0.0.1:8000/assets/dataTables/datatables.min.js"></script>-->
 
 
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-        <script src="https://cdn.datatables.net/rowgroup/1.4.0/js/dataTables.rowGroup.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.4.0/js/dataTables.rowGroup.min.js"></script>
 
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var table = $('#datatables').DataTable({
-                    "lengthMenu": [10, 25, 50, 100, 200],
-                    "language": {
-                        "sProcessing": "Sedang memproses...",
-                        "sLengthMenu": "Tampilkan _MENU_ entri",
-                        "sZeroRecords": "Tidak ditemukan data yang sesuai",
-                        "sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
-                        "sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
-                        "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-                        "sInfoPostFix": "",
-                        "sSearch": "Cari:",
-                        "sUrl": "",
-                        "oPaginate": {
-                            "sFirst": "Pertama",
-                            "sPrevious": "Sebelumnya",
-                            "sNext": "Selanjutnya",
-                            "sLast": "Terakhir"
-                        }
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var table = $('#datatables').DataTable({
+                "lengthMenu": [10, 25, 50, 100, 200],
+                "language": {
+                    "sProcessing": "Sedang memproses...",
+                    "sLengthMenu": "Tampilkan _MENU_ entri",
+                    "sZeroRecords": "Tidak ditemukan data yang sesuai",
+                    "sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                    "sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
+                    "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Cari:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Pertama",
+                        "sPrevious": "Sebelumnya",
+                        "sNext": "Selanjutnya",
+                        "sLast": "Terakhir"
                     }
-                })
-            });
-        </script>
+                }
+            })
+        });
+    </script>
 
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var table = $('#datatables3').DataTable({
-                    "lengthMenu": [10, 25, 50, 100, 200],
-                    "language": {
-                        "sProcessing": "Sedang memproses...",
-                        "sLengthMenu": "Tampilkan _MENU_ entri",
-                        "sZeroRecords": "Tidak ditemukan data yang sesuai",
-                        "sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
-                        "sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
-                        "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-                        "sInfoPostFix": "",
-                        "sSearch": "Cari:",
-                        "sUrl": "",
-                        "oPaginate": {
-                            "sFirst": "Pertama",
-                            "sPrevious": "Sebelumnya",
-                            "sNext": "Selanjutnya",
-                            "sLast": "Terakhir"
-                        }
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var table = $('#datatables3').DataTable({
+                "lengthMenu": [10, 25, 50, 100, 200],
+                "language": {
+                    "sProcessing": "Sedang memproses...",
+                    "sLengthMenu": "Tampilkan _MENU_ entri",
+                    "sZeroRecords": "Tidak ditemukan data yang sesuai",
+                    "sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                    "sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
+                    "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Cari:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Pertama",
+                        "sPrevious": "Sebelumnya",
+                        "sNext": "Selanjutnya",
+                        "sLast": "Terakhir"
                     }
-                })
-            });
-        </script>
+                }
+            })
+        });
+    </script>
 
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var table = $('#datatables2').DataTable({
-                    "lengthMenu": [50, 100, 150, 200],
-                    "language": {
-                        "sProcessing": "Sedang memproses...",
-                        "sLengthMenu": "Tampilkan _MENU_ entri",
-                        "sZeroRecords": "Tidak ditemukan data yang sesuai",
-                        "sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
-                        "sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
-                        "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-                        "sInfoPostFix": "",
-                        "sSearch": "Cari:",
-                        "sUrl": "",
-                        "oPaginate": {
-                            "sFirst": "Pertama",
-                            "sPrevious": "Sebelumnya",
-                            "sNext": "Selanjutnya",
-                            "sLast": "Terakhir"
-                        }
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var table = $('#datatables2').DataTable({
+                "lengthMenu": [50, 100, 150, 200],
+                "language": {
+                    "sProcessing": "Sedang memproses...",
+                    "sLengthMenu": "Tampilkan _MENU_ entri",
+                    "sZeroRecords": "Tidak ditemukan data yang sesuai",
+                    "sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                    "sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
+                    "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Cari:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Pertama",
+                        "sPrevious": "Sebelumnya",
+                        "sNext": "Selanjutnya",
+                        "sLast": "Terakhir"
                     }
-                })
-            });
-        </script>
+                }
+            })
+        });
+    </script>
 
 
 
-        <!-- Bootstrap 4 -->
-        <script src="http://127.0.0.1:8000/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="http://127.0.0.1:8000/assets/dist/js/adminlte.min.js"></script>
-        <script src="http://127.0.0.1:8000/assets/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="http://127.0.0.1:8000/assets/dist/js/sweetalert2.all.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="http://127.0.0.1:8000/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="http://127.0.0.1:8000/assets/dist/js/adminlte.min.js"></script>
+    <script src="http://127.0.0.1:8000/assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="http://127.0.0.1:8000/assets/dist/js/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-        <script src="http://127.0.0.1:8000/js/sweetalert2.min.js"></script>
+    <script src="http://127.0.0.1:8000/js/sweetalert2.min.js"></script>
 
 </body>
 

@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\User;
 
-class Proposals extends Model
+class Pr_Proposal extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'id',
         'bimbingan',
@@ -23,6 +23,7 @@ class Proposals extends Model
         'bab3',
         'keterangan',
         'diskusi',
+        'link',
         'komentar',
         'tanggal',
         'naskah'

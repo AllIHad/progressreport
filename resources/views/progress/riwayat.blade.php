@@ -11,18 +11,18 @@
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('/assets/dist/css/bootstrap.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('/assets/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" />
 
-    <!-- <link rel="stylesheet" href="http://127.0.0.1:8000/assets/css/style.css"> -->
+    <!-- <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}"> -->
     <!-- Theme style -->
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/css/style.css?v=0.001">
-    <!--<link rel="stylesheet" href="http://127.0.0.1:8000/assets/dataTables/datatables.min.css">-->
+    <link rel="stylesheet" href="{{ asset('/assets/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.css?v=0.001') }}">
+    <!--<link rel="stylesheet" href="{{ asset('/assets/dataTables/datatables.min.css') }}">-->
 
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css" rel="stylesheet">
@@ -30,6 +30,7 @@
     <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css" rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/9c94b38548.js" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 
     <!-- <script type="text/javascript">
         function mousedwn(e) {
@@ -47,6 +48,77 @@
         };
         document.onmousedown = mousedwn
     </script> -->
+
+    <style>
+        .dropdown-menu {
+            border-left: 0.01px solid rgba(0, 0, 0, 0.05);
+            border-right: 0.01px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 0.01px solid rgba(0, 0, 0, 0.05);
+            border-top: 0.01px solid rgba(0, 0, 0, 0.05);
+            /* border: none; */
+            box-shadow: none;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+        .dropdown-menu form li:hover {
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+
+        @media screen and (max-width: 768px) {
+            .cardskripsi {
+                margin-bottom: 50px;
+            }
+
+            .dropdown-menu form li i {
+                margin-left: -15px;
+            }
+
+            .navbar-collapse {
+                /*background: rgba(0, 0, 0, 0.05);*/
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+
+            .dropdown-menu {
+                background: radial-gradient(circle at top left, #ffffff, #e5e5e5);
+
+            }
+
+            .navbar-nav li a {
+                text-align: center;
+            }
+
+            .navbar-nav li button {
+                text-align: center;
+            }
+
+        }
+
+        .dropdown-item:hover {
+            color: #0c8a4f;
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+        form li button:hover {
+            color: #0c8a4f;
+            background-color: rgba(41, 52, 47, 0.05);
+        }
+
+        .cursor-default {
+            cursor: default !important;
+
+        }
+
+        .cursor-default:hover {
+            cursor: default !important;
+            color: #192f59 !important;
+            background-color: white !important;
+        }
+    </style>
 
 
 </head>
@@ -70,10 +142,10 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav">
 
-                            
+
                             <li class="nav-item">
                                 <a class="nav-link  " aria-current="page" href="/inventaris/peminjaman-dosen">Progress Report</a>
-                            
+
                             </li>
 
                         </ul>
@@ -117,7 +189,7 @@
                 <div class="container">
                     <div>
                         <div class="anak-judul">
-                            <h4> Persetujuan Kerja Praktek dan Skripsi
+                            <h4>Progress Report
                             </h4>
                             <hr>
                         </div><!-- /.col -->
@@ -129,52 +201,137 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container">
-                    <a href="/progress/proposal/create" class="btn mahasiswa btn-success mb-3">+ Proposal</a>
-                    <a href="/progress/skripsi/create" class="btn mahasiswa btn-success mb-3">+ Skripsi</a>
+                @if($lastProposal)
+                    @if($lastProposal->created_at->translatedFormat('d F Y') === $currentDate)
+                    <a href="#ModalApprove" data-toggle="modal" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Proposal</a>
+                    @else
+                    <a href="/progress/proposal/tambah" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ proposal</a>
+                    @endif
+                    @else
+                    <a href="/progress/proposal/tambah" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Proposal</a>
+                    @endif
 
+                    @if($lastSkripsi)
+                    @if($lastSkripsi->created_at->translatedFormat('d F Y') === $currentDate)
+                    <a href="#ModalApprove" data-toggle="modal" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Skripsi</a>
+                    @else
+                    <a href="/progress/skripsi/tambah" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Skripsi</a>
+                    @endif
+                    @else
+                    <a href="/progress/skripsi/tambah" class="btn mahasiswa btn-success mb-3 font-weight-bold">+ Skripsi</a>
+                    @endif 
                     <div class="container card  p-4">
 
                         <ol class="breadcrumb col-lg-12">
                             <li>
-                                <a href="/progress"  class="px-1" >Progress
-                                    (<span> 0 </span>)
+                                <a href="/progress" class="px-1">Persetujuan
+                                    (<span>{{ $jumlah }}</span>)
                                 </a>
                             </li>
 
                             <span class="px-2">|</span>
                             <li>
-                                <a href="/progress/riwayat" class="breadcrumb-item active fw-bold text-success px-1">Riwayat (<span>0</span>) </a>
+                                <a href="/progress/riwayat" class="breadcrumb-item active fw-bold text-success px-1">Riwayat (<span>{{ $jumlah_skripsi }}</span>) </a>
                             </li>
+
+
                         </ol>
 
                         <div class="container-fluid">
 
+
+                            <div class="card mt-4 mb-4 rounded bg-success ">
+                                <div class="p-2 pt-3">
+                                    <h5 class="text-center text-bold">
+                                        Laporan Kemajuan
+                                    </h5>
+                                </div>
+                            </div>
+
+                            <div class="card pt-4 pb-4">
+                                <div class="row">
+                                    <div class="col-lg-6 ">
+                                        <div id="statistik2" style="width:100%; height:400px;"></div>
+                                    </div>
+                                    <div class="col-lg-6 ">
+                                        <div id="statistik" style="width:100%; height:400px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4 mb-4 rounded bg-success ">
+                                <div class="p-2 pt-3">
+                                    <h5 class="text-center text-bold">
+                                        Riwayat
+                                    </h5>
+                                </div>
+                            </div>
+
                             <table class="table table-responsive-lg table-bordered table-striped" width="100%" id="datatables">
                                 <thead class="table-dark">
                                     <tr>
-                                        <!-- <th class="text-center p-2 p-2" scope="col">No.</th> -->
-                                        <th class="text-center" scope="col">NIM</th>
-                                        <th class="text-center" scope="col">Nama</th>
-                                        <th class="text-center" scope="col">Progress</th>
                                         <th class="text-center" scope="col">Bimbingan</th>
+                                        <th class="text-center" scope="col">Progress</th>
+                                        <th class="text-center" scope="col">Pembimbing</th>
                                         <th class="text-center" scope="col">Status</th>
-                                        <th class="text-center" scope="col">Waktu</th>
+                                        <th class="text-center" scope="col">Tanggal</th>
+                                        <th class="text-center" scope="col">Keterangan</th>
                                         <th class="text-center " scope="col" style="padding-left: 50px; padding-right:50px;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
+                                    @foreach($skripsis as $skripsi)
                                     <tr>
-                                        <td>NIM</td>
-                                        <td>Nama</td>
-                                        <td>Progress</td>
-                                        <td>Bimbingan</td>
-                                        <td>Status</td>
-                                        <td>Waktu</td>
+                                        <td class="text-center ">{{ $skripsi->bimbingan }}</td>
+                                        <td class="text-center ">{{ $skripsi->progress_report }} %</td>
+                                        <td class="text-center ">{{ $skripsi->pembimbing_nama }}</td>
+                                        <td class="text-center bg-info ">{{ $skripsi->status }}</td>
+                                        <td class="text-center ">{{ $skripsi->created_at->translatedFormat('l, d F Y') }}</td>
+                                        @if(!$skripsi->keterangan)
+                                        <td class="text-center ">{{ $skripsi->keterangan }}</td>
+                                        @elseif ($skripsi->keterangan == "Sangat Baik" || $skripsi->keterangan == "Baik")
+                                        <td class="text-center bg-success ">{{ $skripsi->keterangan }}</td>
+                                        @elseif ($skripsi->keterangan == " Diterima" || $skripsi->keterangan == "Cukup Diterima")
+                                        <td class="text-center bg-warning ">{{ $skripsi->keterangan }}</td>
+                                        @else
+                                        <td class="text-center bg-danger ">{{ $skripsi->keterangan }}</td>
+                                        @endif
                                         <td class="text-center">
-                                            <a href='/progress/1'><i class="fas fa-pen"></i></a>
+
+                                            <a href='/progress/skripsi/{{ $skripsi->id }}' type="button" class="badge bg-info rounded border-0"><i class="fa fa-circle-info"></i></a>
+
+                                            <a href='/progress/logbookSkripsi/{{ $skripsi->id }}' target="_blank" type="button" class="badge bg-primary rounded border-0"><i class="fa-solid fa-download"></i></a>
+
                                         </td>
                                     </tr>
+                                    @endforeach
+
+                                    @foreach($proposals as $proposal)
+                                    <tr>
+                                        <td class="text-center ">{{ $proposal->bimbingan }}</td>
+                                        <td class="text-center ">{{ $proposal->progress_report }} %</td>
+                                        <td class="text-center ">{{ $proposal->pembimbing_nama }}</td>
+                                        <td class="text-center bg-info ">{{ $proposal->status }}</td>
+                                        <td class="text-center ">{{ $proposal->created_at->translatedFormat('l, d F Y') }}</td>
+                                        @if(!$proposal->keterangan)
+                                        <td class="text-center ">{{ $proposal->keterangan }}</td>
+                                        @elseif ($proposal->keterangan == "Sangat Baik" || $proposal->keterangan == "Baik")
+                                        <td class="text-center bg-success ">{{ $proposal->keterangan }}</td>
+                                        @elseif ($proposal->keterangan == "Diterima" || $proposal->keterangan == "Cukup Diterima")
+                                        <td class="text-center bg-warning ">{{ $proposal->keterangan }}</td>
+                                        @else
+                                        <td class="text-center bg-danger ">{{ $proposal->keterangan }}</td>
+                                        @endif
+                                        <td class="text-center">
+
+                                            <a href='/progress/proposal/{{ $proposal->id }}' type="button" class="badge bg-info rounded border-0"><i class="fa fa-circle-info"></i></a>
+
+                                            <a href='/progress/logbookProposal/{{ $proposal->id }}' target="_blank" type="button" class="badge bg-primary rounded border-0"><i class="fa-solid fa-download"></i></a>
+
+                                        </td>
+                                    </tr>
+                                    @endforeach
 
                                 </tbody>
 
@@ -197,6 +354,28 @@
                 <p class="developer">Dikembangkan oleh Prodi Teknik Informatika UNRI <a class="text-success fw-bold" formtarget="_blank" target="_blank" href="/developer/m-seprinaldi">( M. Seprinaldi )</a></p>
             </div>
         </section>
+
+        <div class="modal fade" id="ModalApprove">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-sm">
+                    <div class="modal-body">
+                        <div class="container px-5 pt-5 pb-2">
+                            <h3 class="text-center">Batas Maksimal LogBook</h3>
+                            <p class="text-center">LogBook maksimal 1 kali 1 hari, coba lagi besok</p>
+                            <div class="row text-center">
+                                <div class="col-4">
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn p-2 px-3 btn-secondary" data-dismiss="modal">Tidak</button>
+                                </div>
+                                <div class="col-4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- <div class="footer bg-dark">
         <div class="container">
           <p class="developer">Dikembangkan oleh Prodi Teknik Informatika UNRI</p>
@@ -310,6 +489,179 @@
             });
         </script>
 
+        <script>
+            let dataProgresProposalBab1 = <?php echo json_encode($proposalSubBab1) ?>;
+            let dataProgresProposalBab2 = <?php echo json_encode($proposalSubBab2) ?>;
+            let dataProgresProposalBab3 = <?php echo json_encode($proposalSubBab3) ?>;
+            let dataBimbinganProposal = <?php echo json_encode($bimbinganProposal) ?>;
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const chart = Highcharts.chart('statistik2', {
+                    chart: {
+                        type: 'column'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Persentase Progress Proposal',
+                        align: 'center'
+                    },
+                    xAxis: {
+                        categories: dataBimbinganProposal
+                    },
+                    yAxis: {
+                        min: 0,
+                        max: 100,
+                        labels: {
+                            formatter: function() {
+                                return this.value + "%";
+                            }
+                        },
+                        title: {
+                            text: 'Persentase Progress'
+                        },
+                        stackLabels: {
+                            enabled: true
+                        }
+                    },
+                    legend: {
+                        align: 'left',
+                        x: 100,
+                        verticalAlign: 'top',
+                        y: 45,
+                        floating: true,
+                        backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                        borderColor: '#CCC',
+                        borderWidth: 1,
+                        shadow: false,
+                        layout: 'vertical', // Atur layout menjadi vertical untuk membuat 2 kolom
+                    },
+                    tooltip: {
+                        headerFormat: '<b>Bimbingan Ke {point.key}</b><br/>',
+                        pointFormat: '{series.name}: {point.y} %<br/>Total: {point.stackTotal} %'
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true,
+                                format: '{y} %',
+                                style: {
+                                    textOutline: 'none'
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                            name: 'BAB 1',
+                            data: dataProgresProposalBab1
+                        },
+                        {
+                            name: 'BAB 2',
+                            data: dataProgresProposalBab2
+                        },
+                        {
+                            name: 'BAB 3',
+                            data: dataProgresProposalBab3
+                        },
+                    ]
+
+                });
+            });
+        </script>
+
+        <script>
+            let dataProgresSkripsiBab1 = <?php echo json_encode($skripsiSubBab1) ?>;
+            let dataProgresSkripsiBab2 = <?php echo json_encode($skripsiSubBab2) ?>;
+            let dataProgresSkripsiBab3 = <?php echo json_encode($skripsiSubBab3) ?>;
+            let dataProgresSkripsiBab4 = <?php echo json_encode($skripsiSubBab4) ?>;
+            let dataProgresSkripsiBab5 = <?php echo json_encode($skripsiSubBab5) ?>;
+            let dataBimbinganSkripsi = <?php echo json_encode($bimbinganSkripsi) ?>;
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const chart = Highcharts.chart('statistik', {
+                    chart: {
+                        type: 'column'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Persentase Progress Skripsi',
+                        align: 'center'
+                    },
+                    xAxis: {
+                        categories: dataBimbinganSkripsi
+                    },
+                    yAxis: {
+                        min: 0,
+                        max: 100,
+                        labels: {
+                            formatter: function() {
+                                return this.value + "%";
+                            }
+                        },
+                        title: {
+                            text: 'Persentase Progress'
+                        },
+                        stackLabels: {
+                            enabled: true
+                        }
+                    },
+                    legend: {
+                        align: 'left',
+                        x: 100,
+                        verticalAlign: 'top',
+                        y: 45,
+                        floating: true,
+                        backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                        borderColor: '#CCC',
+                        borderWidth: 1,
+                        shadow: false,
+                        layout: 'vertical', // Atur layout menjadi vertical untuk membuat 2 kolom
+                    },
+                    tooltip: {
+                        headerFormat: '<b>Bimbingan Ke {point.key}</b><br/>',
+                        pointFormat: '{series.name}: {point.y} %<br/>Total: {point.stackTotal} %'
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true,
+                                format: '{y} %',
+                                style: {
+                                    textOutline: 'none'
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                            name: 'BAB 1',
+                            data: dataProgresSkripsiBab1
+                        },
+                        {
+                            name: 'BAB 2',
+                            data: dataProgresSkripsiBab2
+                        },
+                        {
+                            name: 'BAB 3',
+                            data: dataProgresSkripsiBab3
+                        },
+                        {
+                            name: 'BAB 4',
+                            data: dataProgresSkripsiBab4
+                        },
+                        {
+                            name: 'BAB 5',
+                            data: dataProgresSkripsiBab5
+                        },
+                    ]
+
+                });
+            });
+        </script>
 
 
         <!-- Bootstrap 4 -->
@@ -321,6 +673,7 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <script src="http://127.0.0.1:8000/js/sweetalert2.min.js"></script>
+
 
 </body>
 
